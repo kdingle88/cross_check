@@ -1,3 +1,3 @@
 # Cross-Check
 
-Starter repository for the [Turing School](https://turing.io/) Cross-Check project.
+Repository for the [Turing School](https://backend.turing.io/module1/projects/cross_check/index) Cross-Check project.
