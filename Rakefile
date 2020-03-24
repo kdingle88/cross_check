@@ -1,4 +1,6 @@
-desc "Say Hello"
-task :hello do
-  ruby "hello.rb"
-end
+require 'rake'
+require 'rspec/core/rake_task'
+
+RSpec::Core::RakeTask.new(:spec) 
+
+task :default  => :spec
