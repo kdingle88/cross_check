@@ -21,9 +21,11 @@ class StatTracker
     teams_list = teams_data.map {|d| d.to_hash}
     game_teams_list = game_teams_data.map {|d| d.to_hash}
     
+    
     games = games_list.map {|g| Game.new(g)}
     teams = teams_list.map {|t| Team.new(t)}
     game_stats= game_teams_list.map {|l| Game_Stat.new(l)}
+    
 
 
     stat_tracker = StatTracker.new(games, teams, game_stats)
