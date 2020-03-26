@@ -18,6 +18,12 @@ class StatTracker
     game_scores_sum.max
   end
 
+  def lowest_total_score
+    game_scores_sum = games.map { |game| game.total_goals}
+
+    game_scores_sum.min
+  end
+
 
   def self.from_csv(locations)
 
