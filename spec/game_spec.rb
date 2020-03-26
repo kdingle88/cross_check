@@ -33,4 +33,16 @@ RSpec.describe Game do
       end
     end
   end
+  
+  describe '#difference_goals' do
+    context 'when called' do
+      it 'returns an Integer' do
+        expect(subject.difference_goals).to be_a(Integer)
+      end
+      it 'returns the difference of away goals and home goals' do
+        expect(subject.difference_goals).to be(1)
+      end
+
+    end
+  end
 end

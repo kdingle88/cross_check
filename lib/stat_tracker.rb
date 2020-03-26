@@ -24,6 +24,11 @@ class StatTracker
     game_scores_sum.min
   end
 
+  def biggest_blowout
+    game_scores_difference = games.map { |game| game.difference_goals}
+
+    game_scores_difference.max
+  end
 
   def self.from_csv(locations)
 
