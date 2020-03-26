@@ -18,4 +18,8 @@ class Game
     @venue_time_zone_offset = game[:venue_time_zone_offset]
     @venue_time_zone_tz = game[:venue_time_zone_tz]
   end
+  
+  def total_goals
+    away_goals + home_goals
+  end
 end

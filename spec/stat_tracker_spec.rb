@@ -13,9 +13,21 @@ locations = {
 
 
 RSpec.describe StatTracker do
-  describe '::from_csv' do
-    it 'returns an instance of StatTracker.' do
-      expect(StatTracker.from_csv(locations)).to be_instance_of(StatTracker)
+  subject {StatTracker.from_csv(locations)}
+
+    describe '::from_csv' do
+      it 'returns an instance of StatTracker.' do
+        expect(subject).to be_instance_of(StatTracker)
+      end
     end
-  end
+    describe '#highest_total_score'do
+      context 'when called' do
+        it 'returns integer value' do
+          expect(subject.highest_total_score).to be_a(Integer)
+        end
+        it 'returns highest sum of the winning and losing teams scores' do
+          expect(subject.highest_total_score).to be(7)
+        end
+      end
+    end
 end

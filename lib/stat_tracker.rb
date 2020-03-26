@@ -5,11 +5,19 @@ require_relative 'game_stat.rb'
 
 class StatTracker
   attr_reader :games, :teams, :game_stats 
+
   def initialize(games, teams, game_stats)
     @games = games
     @teams = teams
     @game_stats = game_stats
   end
+
+  def highest_total_score
+    game_scores_sum = games.map { |game| game.total_goals}
+
+    game_scores_sum.max
+  end
+
 
   def self.from_csv(locations)
 
@@ -21,13 +29,10 @@ class StatTracker
     teams_list = teams_data.map {|d| d.to_hash}
     game_teams_list = game_teams_data.map {|d| d.to_hash}
     
-    
     games = games_list.map {|g| Game.new(g)}
     teams = teams_list.map {|t| Team.new(t)}
     game_stats= game_teams_list.map {|l| Game_Stat.new(l)}
-    
-
-
+  
     stat_tracker = StatTracker.new(games, teams, game_stats)
 
     stat_tracker
