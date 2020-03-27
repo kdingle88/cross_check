@@ -80,6 +80,20 @@ class StatTracker
     avg_goals.round(2)
   end
 
+  def average_goals_by_season
+    avg_goal = Hash.new
+
+    goal_count = count_of_goals_by_season
+
+    season_count = count_of_games_by_season
+
+    season_count.each do |season, count|
+        season_avg = goal_count[season] / count.to_f
+      avg_goal[season] = season_avg.round(2)
+    end
+    avg_goal
+  end
+
   private
 
   def total_home_wins
@@ -94,5 +108,15 @@ class StatTracker
     visitor_winners = games.select {|game| game.outcome == "away win REG"}
 
     visitor_winners.length
+  end
+
+  def count_of_goals_by_season
+    goal_count = Hash.new 0
+
+    games.each do |game|
+      goal_count[game.season] += game.total_goals
+    end
+
+    goal_count
   end
 end
