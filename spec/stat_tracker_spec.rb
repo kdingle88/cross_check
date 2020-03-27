@@ -21,6 +21,8 @@ RSpec.describe StatTracker do
     end
   end
 
+  #Game Statistics
+
   describe '#highest_total_score'do
     context 'when called' do
       it 'returns integer value' do
@@ -109,4 +111,17 @@ RSpec.describe StatTracker do
       end
     end
   end
+
+  #League Statistics
+
+  describe '#count_of_teams' do
+    context 'when called' do
+      it 'returns an Integer' do
+        expect(subject.count_of_teams).to be_a(Integer)
+      end
+      it 'returns total number of teams' do
+        expect(subject.count_of_teams).to eql(10)
+      end
+    end
+  end   
 end

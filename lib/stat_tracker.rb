@@ -31,6 +31,8 @@ class StatTracker
     stat_tracker
   end
 
+  #Game Statistics
+
   def highest_total_score
     game_scores_sum = games.map { |game| game.total_goals}
 
@@ -92,6 +94,12 @@ class StatTracker
       avg_goal[season] = season_avg.round(2)
     end
     avg_goal
+  end
+
+  #League Statistics
+
+  def count_of_teams
+    teams.length
   end
 
   private
