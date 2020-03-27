@@ -61,6 +61,16 @@ class StatTracker
     visitor_wins.round(2)
   end
 
+  def count_of_games_by_season
+    season_count = Hash.new 0
+
+    games.each do |game|
+      season_count[game.season] += 1
+    end
+
+    season_count
+  end
+
   private
 
   def total_home_wins

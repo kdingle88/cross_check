@@ -73,4 +73,14 @@ RSpec.describe StatTracker do
       end
     end
   end
+  describe '#count_of_games_by_season' do
+    context 'when called' do
+      it 'returns a Hash' do
+        expect(subject.count_of_games_by_season).to be_a(Hash)
+      end
+      it 'A hash with season names as keys and counts of games as values' do
+        expect(subject.count_of_games_by_season).to include({20122013 => 10})
+      end
+    end
+  end
 end
