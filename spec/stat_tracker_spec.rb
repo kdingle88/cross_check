@@ -73,13 +73,27 @@ RSpec.describe StatTracker do
       end
     end
   end
+
   describe '#count_of_games_by_season' do
     context 'when called' do
       it 'returns a Hash' do
         expect(subject.count_of_games_by_season).to be_a(Hash)
       end
-      it 'A hash with season names as keys and counts of games as values' do
+
+      it 'returns a hash with season names as keys and counts of games as values' do
         expect(subject.count_of_games_by_season).to include({20122013 => 10})
+      end
+    end
+  end
+
+  describe '#average_goals_per_game' do
+    context 'when called' do
+      it 'returns a Float value' do
+        expect(subject.average_goals_per_game).to be_a(Float)
+      end
+
+      it 'returns average number of goals scored in a game across all seasons including both home and away goals' do
+        expect(subject.average_goals_per_game).to eq(4.50)
       end
     end
   end
