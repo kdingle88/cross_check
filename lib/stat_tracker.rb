@@ -108,8 +108,17 @@ class StatTracker
 
     best_o = teams.select {|team| team.team_id == highest_goals}
 
-    best_o[0].short_name
+    best_o[0].team_name
     
+  end
+
+  def worst_offense
+
+    lowest_goals = count_of_goals_by_team.key(count_of_goals_by_team.values.min)
+
+    worst_o = teams.select {|team| team.team_id == lowest_goals}
+
+    worst_o[0].team_name
   end
 
   private
