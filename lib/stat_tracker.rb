@@ -12,30 +12,6 @@ class StatTracker
     @game_stats = game_stats
   end
 
-  def highest_total_score
-    game_scores_sum = games.map { |game| game.total_goals}
-
-    game_scores_sum.max
-  end
-
-  def lowest_total_score
-    game_scores_sum = games.map { |game| game.total_goals}
-
-    game_scores_sum.min
-  end
-
-  def biggest_blowout
-    game_scores_difference = games.map { |game| game.difference_goals}
-
-    game_scores_difference.max
-  end
-
-  def percentage_home_wins
-    home_wins = total_home_wins / total_games.to_f
-
-    home_wins.round(2)
-  end
-
   def self.from_csv(locations)
 
     games_data = CSV.read(locations[:games], { encoding: "UTF-8", headers: true, header_converters: :symbol, converters: :all})
@@ -55,11 +31,37 @@ class StatTracker
     stat_tracker
   end
 
-  private
+  def highest_total_score
+    game_scores_sum = games.map { |game| game.total_goals}
 
-  def total_games
-    games.length
+    game_scores_sum.max
   end
+
+  def lowest_total_score
+    game_scores_sum = games.map { |game| game.total_goals}
+
+    game_scores_sum.min
+  end
+
+  def biggest_blowout
+    game_scores_difference = games.map { |game| game.difference_goals}
+
+    game_scores_difference.max
+  end
+
+  def percentage_home_wins
+    home_wins = total_home_wins / games.length.to_f
+
+    home_wins.round(2)
+  end
+
+  def percentage_visitor_wins
+    visitor_wins = total_visitor_wins / games.length.to_f
+
+    visitor_wins.round(2)
+  end
+
+  private
 
   def total_home_wins
     winners_ot = games.select { |game| game.outcome == "home win OT" }
@@ -67,5 +69,11 @@ class StatTracker
     winners_reg = games.select {|game| game.outcome == "home win REG"}
 
     winners_ot.length + winners_reg.length
+  end
+
+  def total_visitor_wins
+    visitor_winners = games.select {|game| game.outcome == "away win REG"}
+
+    visitor_winners.length
   end
 end
