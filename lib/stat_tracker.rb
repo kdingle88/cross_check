@@ -102,6 +102,16 @@ class StatTracker
     teams.length
   end
 
+  def best_offense
+
+    highest_goals = count_of_goals_by_team.key(count_of_goals_by_team.values.max)
+
+    best_o = teams.select {|team| team.team_id == highest_goals}
+
+    best_o[0].short_name
+    
+  end
+
   private
 
   def total_home_wins
@@ -127,4 +137,19 @@ class StatTracker
 
     goal_count
   end
+
+  def count_of_goals_by_team
+    team_goal_count = Hash.new 0
+
+    game_stats.each do |stat|
+      team_goal_count[stat.team_id] += stat.goals
+    end
+
+    team_goal_count
+  end
+
+  def total_num_of_seasons
+    count_of_games_by_season.length
+  end
+
 end

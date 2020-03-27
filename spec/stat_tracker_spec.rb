@@ -123,5 +123,16 @@ RSpec.describe StatTracker do
         expect(subject.count_of_teams).to eql(10)
       end
     end
-  end   
+  end 
+  
+  describe '#best_offense' do
+    context 'when called' do
+      it 'returns String' do
+        expect(subject.best_offense).to be_a(String)
+      end
+      it 'returns name of the team with the highest average number of goals scored per game across all seasons.' do
+        expect(subject.best_offense).to eq("Boston")
+      end
+    end
+  end
 end
