@@ -53,4 +53,14 @@ RSpec.describe StatTracker do
       end
     end
   end
+  describe '#percentage_home_wins' do
+    context 'when called' do
+      it 'returns Float value' do
+        expect(subject.percentage_home_wins).to be_a(Float)
+      end
+      it 'returns percentage of games that a home team has won' do
+        expect(subject.percentage_home_wins).to eql(0.70)
+      end
+    end
+  end
 end

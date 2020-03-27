@@ -30,6 +30,12 @@ class StatTracker
     game_scores_difference.max
   end
 
+  def percentage_home_wins
+    home_wins = total_home_wins / total_games.to_f
+
+    home_wins.round(2)
+  end
+
   def self.from_csv(locations)
 
     games_data = CSV.read(locations[:games], { encoding: "UTF-8", headers: true, header_converters: :symbol, converters: :all})
@@ -48,5 +54,18 @@ class StatTracker
 
     stat_tracker
   end
-  
+
+  private
+
+  def total_games
+    games.length
+  end
+
+  def total_home_wins
+    winners_ot = games.select { |game| game.outcome == "home win OT" }
+
+    winners_reg = games.select {|game| game.outcome == "home win REG"}
+
+    winners_ot.length + winners_reg.length
+  end
 end
