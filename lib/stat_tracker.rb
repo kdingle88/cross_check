@@ -130,6 +130,15 @@ class StatTracker
     selected_team.team_name
   end
 
+  def worst_defense
+    selected_team = teams[0]
+    teams.each do |team|
+      #Same as worst offense but Goals Allowed per team??
+      team.goals_allowed(games) > selected_team.goals_allowed(games) ? selected_team = team : selected_team
+    end
+    selected_team.team_name
+  end
+
   private
 
   def total_home_wins
