@@ -155,7 +155,13 @@ class StatTracker
     hi_score_homer[0].team_name
   end
 
+  def lowest_scoring_visitor
+    visitor_scores = teams.map {|team| team.away_goals(games)}
 
+    low_score_visitor = teams.select {|team| team.away_goals(games) == visitor_scores.min}
+
+    low_score_visitor[0].team_name
+  end
 
 
 

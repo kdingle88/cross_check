@@ -191,5 +191,16 @@ RSpec.describe StatTracker do
       end
     end
   end
- 
+
+  describe '#lowest_scoring_visitor' do
+    context 'when called' do
+      it 'returns team with the lowest average score per game across all seasons when they are away.' do
+        expect(subject.lowest_scoring_visitor).to be_a(String)
+      end
+      it 'returns name of the team with the highest average number of goals per game across all seasons when away.' do
+        
+        expect(subject.lowest_scoring_visitor).to eql("Bruins")
+      end
+    end
+  end
 end
