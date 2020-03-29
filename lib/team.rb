@@ -26,6 +26,13 @@ class Team
     away_games(games).reduce(0) {|sum, game| sum + game.away_goals}
   end
 
+  def goals_allowed(games)
+    home_goals_allowed = home_games(games).reduce(0) {|sum, game| sum + game.away_goals}
+
+    away_goal_allowed = away_games(games).reduce(0) {|sum, game| sum + game.home_goals}
+
+    home_goals_allowed + away_goal_allowed
+  end
   # private 
   # def home_or_away?
 

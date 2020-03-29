@@ -40,7 +40,7 @@ RSpec.describe StatTracker do
         expect(subject.lowest_total_score).to be_a(Integer)
       end
       it 'returns lowest sum of the winning and losing teams scores' do
-        expect(subject.lowest_total_score).to be(1)
+        expect(subject.lowest_total_score).to be(3)
       end
     end
   end
@@ -51,7 +51,7 @@ RSpec.describe StatTracker do
         expect(subject.biggest_blowout).to be_a(Integer)
       end
       it 'returns highest difference between winner and loser' do
-        expect(subject.biggest_blowout).to be(5)
+        expect(subject.biggest_blowout).to be(3)
       end
     end
   end
@@ -61,7 +61,7 @@ RSpec.describe StatTracker do
         expect(subject.percentage_home_wins).to be_a(Float)
       end
       it 'returns percentage of games that a home team has won' do
-        expect(subject.percentage_home_wins).to eql(0.70)
+        expect(subject.percentage_home_wins).to eql(0.80)
       end
     end
   end
@@ -71,7 +71,7 @@ RSpec.describe StatTracker do
         expect(subject.percentage_visitor_wins).to be_a(Float)
       end
       it 'returns percentage of games that a visitor team has won' do
-        expect(subject.percentage_visitor_wins).to eql(0.30)
+        expect(subject.percentage_visitor_wins).to eql(0.20)
       end
     end
   end
@@ -83,7 +83,7 @@ RSpec.describe StatTracker do
       end
 
       it 'returns a hash with season names as keys and counts of games as values' do
-        expect(subject.count_of_games_by_season).to include({20122013 => 10})
+        expect(subject.count_of_games_by_season).to include({20122013 => 5})
       end
     end
   end
@@ -95,7 +95,7 @@ RSpec.describe StatTracker do
       end
 
       it 'returns average number of goals scored in a game across all seasons including both home and away goals' do
-        expect(subject.average_goals_per_game).to eq(4.50)
+        expect(subject.average_goals_per_game).to eq(5.20)
       end
     end
   end
@@ -107,7 +107,7 @@ RSpec.describe StatTracker do
       end
 
       it 'returns hash average number of goals scored in a game with season names as keys and a float representing the average number of goals in a game as values' do
-        expect(subject.average_goals_by_season).to include({20122013 => 4.50})
+        expect(subject.average_goals_by_season).to include({20122013 => 5.20})
       end
     end
   end
@@ -120,7 +120,7 @@ RSpec.describe StatTracker do
         expect(subject.count_of_teams).to be_a(Integer)
       end
       it 'returns total number of teams' do
-        expect(subject.count_of_teams).to eql(10)
+        expect(subject.count_of_teams).to eql(2)
       end
     end
   end 
@@ -147,13 +147,17 @@ RSpec.describe StatTracker do
     end
   end
 
-  # describe '#best_defense' do
-  #   context 'when called' do
-  #     it 'returns a String' do
-  #       expect(subject.best_defense).to be_a(String)
-  #     end
-  #     it 'returns name of the team with the lowest average number of goals allowed per game across all seasons.' do
-  #       expect(subject.best_defense).to 
-  #   end
-  # end
+  describe '#best_defense' do
+    context 'when called' do
+      team = {
+        
+      }
+      it 'returns a String' do
+        expect(subject.best_defense).to be_a(String)
+      end
+      it 'returns name of the team with the lowest average number of goals allowed per game across all seasons.' do
+        expect(subject.best_defense).to eql("Bruins")
+      end
+    end
+  end
 end
