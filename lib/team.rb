@@ -33,6 +33,12 @@ class Team
 
     home_goals_allowed + away_goal_allowed
   end
+
+
+
+
+
+  
   # private 
   # def home_or_away?
 

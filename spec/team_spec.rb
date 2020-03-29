@@ -42,7 +42,7 @@ RSpec.describe Team do
       it 'returns Integer' do
         expect(team.home_goals(games)).to be_a(Integer)
       end
-      it 'returns sum of home goals accros seasons for that team' do
+      it 'returns sum of home goals across seasons for that team' do
         expect(team.home_goals(games)).to eq(11)
       end
     end
@@ -91,4 +91,6 @@ RSpec.describe Team do
       end
     end
   end
+
+  
 end

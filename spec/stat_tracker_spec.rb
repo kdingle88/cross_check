@@ -168,4 +168,18 @@ RSpec.describe StatTracker do
       end
     end
   end
+
+  describe '#highest_scoring_visitor' do
+    context 'when called' do
+      it 'returns team with the highest average score per game across all seasons when they are away.' do
+        expect(subject.highest_scoring_visitor).to be_a(String)
+      end
+      it 'returns name of the team with the highest average number of goals allowed per game across all seasons.' do
+        
+        expect(subject.highest_scoring_visitor).to eql("Bruins")
+      end
+    end
+  end
+
+  
 end
