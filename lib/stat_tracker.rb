@@ -121,6 +121,12 @@ class StatTracker
     worst_o[0].team_name
   end
 
+  # def best_defense
+  #   games.each do |game|
+  #     #Same as worst offense but Goals Allowed per team??
+  #   end
+  # end
+
   private
 
   def total_home_wins

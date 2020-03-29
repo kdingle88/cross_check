@@ -9,4 +9,24 @@ class Team
     @abbreviation = team[:abbreviation]
     @link = team[:link]
   end
+
+  def home_games(games)
+    games.select { |game| game.home_team_id == team_id }
+  end
+
+  def home_goals(games)
+    home_games(games).reduce(0) {|sum, game| sum + game.home_goals}
+  end
+
+  def away_games(games)
+    games.select { |game| game.away_team_id == team_id }
+  end
+
+  def away_goals(games)
+    away_games(games).reduce(0) {|sum, game| sum + game.away_goals}
+  end
+
+  # private 
+  # def home_or_away?
+
 end 

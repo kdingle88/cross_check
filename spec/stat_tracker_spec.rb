@@ -146,4 +146,14 @@ RSpec.describe StatTracker do
       end
     end
   end
+
+  # describe '#best_defense' do
+  #   context 'when called' do
+  #     it 'returns a String' do
+  #       expect(subject.best_defense).to be_a(String)
+  #     end
+  #     it 'returns name of the team with the lowest average number of goals allowed per game across all seasons.' do
+  #       expect(subject.best_defense).to 
+  #   end
+  # end
 end
