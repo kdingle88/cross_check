@@ -147,7 +147,13 @@ class StatTracker
     hi_score_visitor[0].team_name
   end
   
+  def highest_scoring_homer
+    home_scores = teams.map {|team| team.home_goals(games)}
 
+    hi_score_homer = teams.select {|team| team.home_goals(games) == home_scores.max}
+
+    hi_score_homer[0].team_name
+  end
 
 
 
