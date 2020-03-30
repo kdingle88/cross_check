@@ -92,5 +92,20 @@ RSpec.describe Team do
     end
   end
 
-  
+  describe '#win_percentage' do
+    context 'when called' do
+      team = stat_tracker.teams[0]
+      game_stats = stat_tracker.game_stats
+      
+
+      it 'returns Integer' do
+        my_win_stats = team.win_percentage(game_stats)
+
+        expect(team.win_percentage(game_stats)).to be_a(Float)
+      end
+      it 'returns goals allowed across seasons for that team' do
+        expect(team.win_percentage(game_stats)).to eq(0.80)
+      end
+    end
+  end
 end

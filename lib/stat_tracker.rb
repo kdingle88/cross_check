@@ -2,6 +2,7 @@ require 'csv'
 require_relative 'game.rb'
 require_relative 'team.rb'
 require_relative 'game_stat.rb'
+require 'pry'
 
 class StatTracker
   attr_reader :games, :teams, :game_stats 
@@ -170,6 +171,16 @@ class StatTracker
 
     low_score_homer[0].team_name
   end
+
+  def winningest_team
+    team_win_pct = teams.map {|team| team.win_percentage(game_stats)}
+
+    winning_team = teams.select {|team| team.win_percentage(game_stats) == team_win_pct.max} 
+
+    winning_team[0].team_name
+  end
+
+  
 
 
 

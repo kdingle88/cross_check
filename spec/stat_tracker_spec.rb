@@ -171,7 +171,7 @@ RSpec.describe StatTracker do
 
   describe '#highest_scoring_visitor' do
     context 'when called' do
-      it 'returns team with the highest average score per game across all seasons when they are away.' do
+      it 'returns a String' do
         expect(subject.highest_scoring_visitor).to be_a(String)
       end
       it 'returns name of the team with the highest average number of goals per game across all seasons when away.' do
@@ -183,7 +183,7 @@ RSpec.describe StatTracker do
 
   describe '#highest_scoring_home_team' do
     context 'when called' do
-      it 'returns team with the highest average score per game across all seasons when they are home.' do
+      it 'returns a String' do
         expect(subject.highest_scoring_home_team).to be_a(String)
       end
       it 'returns name of the team with the highest average number of goals per game across all seasons.' do
@@ -194,7 +194,7 @@ RSpec.describe StatTracker do
 
   describe '#lowest_scoring_visitor' do
     context 'when called' do
-      it 'returns team with the lowest average score per game across all seasons when they are away.' do
+      it 'returns a String' do
         expect(subject.lowest_scoring_visitor).to be_a(String)
       end
       it 'returns name of the team with the highest average number of goals per game across all seasons when away.' do
@@ -206,12 +206,23 @@ RSpec.describe StatTracker do
 
   describe '#lowest_scoring_home_team' do
     context 'when called' do
-      it 'returns team with the lowest average score per game across all seasons when they are home.' do
+      it 'returns a String' do
         expect(subject.lowest_scoring_home_team).to be_a(String)
       end
       it 'returns name of the team with the highest average number of goals per game across all seasons when away.' do
         
         expect(subject.lowest_scoring_home_team).to eql("Rangers")
+      end
+    end
+  end
+
+  describe '#winningest_team' do
+    context 'when called' do
+      it 'returns a String' do
+        expect(subject.winningest_team).to be_a(String)
+      end
+      it 'returns name of the team with the highest win percentage across all seasons' do
+        expect(subject.winningest_team).to eql("Bruins")
       end
     end
   end

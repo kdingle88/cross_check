@@ -34,11 +34,24 @@ class Team
     home_goals_allowed + away_goal_allowed
   end
 
+  def win_percentage(game_stats)
+
+    total_games = game_stats.length / 2
+    
+
+    season_games = game_stats.select {|stat|  stat.team_id == team_id}
+
+    team_wins = season_games.select {|stat| stat.won == "TRUE"}
+
+
+    win_pct = team_wins.length.to_f / total_games
+
+    win_pct.round(2)
+  end
 
 
 
 
-  
   # private 
   # def home_or_away?
 
