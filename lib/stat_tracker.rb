@@ -147,7 +147,7 @@ class StatTracker
     hi_score_visitor[0].team_name
   end
   
-  def highest_scoring_homer
+  def highest_scoring_home_team
     home_scores = teams.map {|team| team.home_goals(games)}
 
     hi_score_homer = teams.select {|team| team.home_goals(games) == home_scores.max}
@@ -163,6 +163,13 @@ class StatTracker
     low_score_visitor[0].team_name
   end
 
+  def lowest_scoring_home_team
+    home_scores = teams.map {|team| team.home_goals(games)}
+
+    low_score_homer = teams.select {|team| team.home_goals(games) == home_scores.min}
+
+    low_score_homer[0].team_name
+  end
 
 
 
