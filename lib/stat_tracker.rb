@@ -125,7 +125,6 @@ class StatTracker
   def best_defense
     selected_team = teams[0]
     teams.each do |team|
-      #Same as worst offense but Goals Allowed per team??
       team.goals_allowed(games) < selected_team.goals_allowed(games) ? selected_team = team : selected_team
     end
     selected_team.team_name
@@ -134,7 +133,6 @@ class StatTracker
   def worst_defense
     selected_team = teams[0]
     teams.each do |team|
-      #Same as worst offense but Goals Allowed per team??
       team.goals_allowed(games) > selected_team.goals_allowed(games) ? selected_team = team : selected_team
     end
     selected_team.team_name
@@ -178,6 +176,15 @@ class StatTracker
     winning_team = teams.select {|team| team.win_percentage(game_stats) == team_win_pct.max} 
 
     winning_team[0].team_name
+
+  end
+
+  def best_fans
+    teams_best_fans = teams.map {|team| team.home_win_percentage(game_stats) - team.away_win_percentage(game_stats)}
+
+    team_with_best_fans = teams.find { |team| team.home_win_percentage(game_stats) == teams_best_fans.max }
+
+    team_with_best_fans.team_name
   end
 
   

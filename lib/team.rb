@@ -10,8 +10,14 @@ class Team
     @link = team[:link]
   end
 
-  def home_games(games)
-    games.select { |game| game.home_team_id == team_id }
+  def home_games(games_or_stats)
+
+    if (games_or_stats[0].respond_to? :outcome)
+      games_or_stats.select { |game| game.home_team_id == team_id }
+    else
+      games_or_stats.select { |stat| stat.home_or_away == "home" }
+    end
+
   end
 
   def home_goals(games)
@@ -36,23 +42,51 @@ class Team
 
   def win_percentage(game_stats)
 
-    total_games = game_stats.length / 2
-    
-
-    season_games = game_stats.select {|stat|  stat.team_id == team_id}
+    season_games = home_season_games(game_stats) + away_season_games(game_stats)
 
     team_wins = season_games.select {|stat| stat.won == "TRUE"}
 
 
-    win_pct = team_wins.length.to_f / total_games
+    win_pct = team_wins.length.to_f / total_games(game_stats)
 
     win_pct.round(2)
+  end
+
+  def home_win_percentage(game_stats)
+    home_team_wins = home_season_games(game_stats).select {|stat| stat.won == "TRUE"}
+
+
+    home_win_pct = home_team_wins.length.to_f / home_season_games(game_stats).length
+
+    home_win_pct.round(2)
+  end
+
+  def away_win_percentage(game_stats)
+    away_team_wins = away_season_games(game_stats).select {|stat| stat.won == "TRUE"}
+
+
+    away_win_pct = away_team_wins.length.to_f / away_season_games(game_stats).length
+
+    away_win_pct.round(2)
   end
 
 
 
 
-  # private 
-  # def home_or_away?
+  private 
+  def total_games(game_stats)
+    game_stats.length / 2
+  end
+
+  def home_season_games(game_stats)
+    game_stats.select {|stat|  stat.team_id == team_id && stat.home_or_away == "home"}
+  end
+
+  def away_season_games(game_stats)
+    away_games = game_stats.select {|stat|  stat.team_id == team_id && stat.home_or_away == "away"}
+   
+    
+    away_games
+  end
 
 end 

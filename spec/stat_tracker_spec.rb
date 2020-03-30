@@ -226,4 +226,16 @@ RSpec.describe StatTracker do
       end
     end
   end
+
+  describe '#best_fans' do
+    context 'when called' do
+      it 'returns a String' do
+        expect(subject.best_fans).to be_a(String)
+      end
+
+      it 'returns a String' do
+        expect(subject.best_fans).to eql("Rangers")
+      end
+    end
+  end
 end
