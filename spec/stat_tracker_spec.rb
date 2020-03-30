@@ -233,8 +233,20 @@ RSpec.describe StatTracker do
         expect(subject.best_fans).to be_a(String)
       end
 
-      it 'returns a String' do
+      it 'returns name of the team with biggest difference between home and away win percentages.' do
         expect(subject.best_fans).to eql("Rangers")
+      end
+    end
+  end
+
+  describe '#worst_fans' do
+    context 'when called' do
+      it 'returns an Array' do
+        expect(subject.worst_fans).to be_a(Array)
+      end
+
+      it 'returns list of names of all teams with better away records than home records.' do
+        expect(subject.worst_fans).to eql([])
       end
     end
   end

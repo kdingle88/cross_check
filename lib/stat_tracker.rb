@@ -173,18 +173,25 @@ class StatTracker
   def winningest_team
     team_win_pct = teams.map {|team| team.win_percentage(game_stats)}
 
-    winning_team = teams.select {|team| team.win_percentage(game_stats) == team_win_pct.max} 
+    winning_team = teams.find {|team| team.win_percentage(game_stats) == team_win_pct.max} 
 
-    winning_team[0].team_name
+    winning_team.team_name
 
   end
 
   def best_fans
-    teams_best_fans = teams.map {|team| team.home_win_percentage(game_stats) - team.away_win_percentage(game_stats)}
+    teams_pct_diff = teams.map {|team| team.home_win_percentage(game_stats) - team.away_win_percentage(game_stats)}
 
-    team_with_best_fans = teams.find { |team| team.home_win_percentage(game_stats) == teams_best_fans.max }
+    team_with_best_fans = teams.find { |team| team.home_win_percentage(game_stats) == teams_pct_diff.max }
 
     team_with_best_fans.team_name
+  end
+
+  def worst_fans
+    worst_teams =teams.select {|team| team.home_win_percentage(game_stats) < team.away_win_percentage(game_stats)}
+    
+    worst_teams
+
   end
 
   
