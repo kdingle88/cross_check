@@ -250,4 +250,34 @@ RSpec.describe StatTracker do
       end
     end
   end
+
+  #Team_Statistics
+    describe '#team_info' do
+      context 'when called' do
+        stat_tracker = StatTracker.from_csv(locations)
+        team = stat_tracker.teams[0]
+        id = 6
+
+        bruins = {
+          team_id: 6,
+          franchise_id: 6,
+          short_name: "Boston",
+          team_name: "Bruins",
+          abbreviation: "BOS",
+          link: "/api/v1/teams/6"
+            }
+
+
+
+
+        it 'returns a hash' do
+          expect(subject.team_info(id)).to be_a(Hash)
+        end
+        it 'returns a hash with key/value pairs for each of the attributes of a team.' do
+          expect(subject.team_info(id)).to include(bruins)
+        end
+      end
+    end
+        
+
 end

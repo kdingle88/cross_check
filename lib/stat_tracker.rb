@@ -191,10 +191,27 @@ class StatTracker
     worst_teams =teams.select {|team| team.home_win_percentage(game_stats) < team.away_win_percentage(game_stats)}
     
     worst_teams
-
   end
 
-  
+  #Team Statistics
+
+  def team_info(team_id)
+    
+    
+    selected_team = teams.find {|team| team.team_id == team_id}
+
+    {
+      team_id: selected_team.team_id,
+      franchise_id: selected_team.franchise_id,
+      short_name: selected_team.short_name,
+      team_name: selected_team.team_name,
+      abbreviation: selected_team.abbreviation,
+      link: selected_team.link
+    }
+    
+
+    
+  end
 
 
 
