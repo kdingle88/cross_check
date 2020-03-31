@@ -15,7 +15,7 @@ class Team
     if (games_or_stats[0].respond_to? :outcome)
       games_or_stats.select { |game| game.home_team_id == team_id }
     else
-      games_or_stats.select { |stat| stat.home_or_away == "home" }
+      games_or_stats.select {|stat|  stat.team_id == team_id && stat.home_or_away == "home"}
     end
 
   end
@@ -24,8 +24,13 @@ class Team
     home_games(games).reduce(0) {|sum, game| sum + game.home_goals}
   end
 
-  def away_games(games)
-    games.select { |game| game.away_team_id == team_id }
+  def away_games(games_or_stats)
+
+    if(games_or_stats[0].respond_to? :outcome)
+      games_or_stats.select { |game| game.away_team_id == team_id }
+    else
+      games_or_stats.select {|stat|  stat.team_id == team_id && stat.home_or_away == "away"}
+    end
   end
 
   def away_goals(games)
@@ -42,7 +47,7 @@ class Team
 
   def win_percentage(game_stats)
 
-    season_games = home_season_games(game_stats) + away_season_games(game_stats)
+    season_games = home_games(game_stats) + away_games(game_stats)
 
     team_wins = season_games.select {|stat| stat.won == "TRUE"}
 
@@ -53,40 +58,40 @@ class Team
   end
 
   def home_win_percentage(game_stats)
-    home_team_wins = home_season_games(game_stats).select {|stat| stat.won == "TRUE"}
-
-
-    home_win_pct = home_team_wins.length.to_f / home_season_games(game_stats).length
+    home_win_pct = home_team_wins(game_stats).length.to_f / home_games(game_stats).length
 
     home_win_pct.round(2)
   end
 
   def away_win_percentage(game_stats)
-    away_team_wins = away_season_games(game_stats).select {|stat| stat.won == "TRUE"}
-
-
-    away_win_pct = away_team_wins.length.to_f / away_season_games(game_stats).length
+    away_win_pct = away_team_wins(game_stats).length.to_f / away_games(game_stats).length
 
     away_win_pct.round(2)
   end
 
+  def home_team_wins(game_stats)
+    home_games(game_stats).select {|stat| stat.won == "TRUE"}
+  end
+
+  def away_team_wins(game_stats)
+    away_games(game_stats).select {|stat| stat.won == "TRUE"}
+  end
+
+  # def wins_per_season
+  #   #calcualte wins for each season..game stats should have an hash that returns season?
+  # end
+
+  
 
 
 
   private 
-  def total_games(game_stats)
-    game_stats.length / 2
+  def total_games(games_or_stats)
+    home_games(games_or_stats).length + away_games(games_or_stats).length
   end
 
-  def home_season_games(game_stats)
-    game_stats.select {|stat|  stat.team_id == team_id && stat.home_or_away == "home"}
-  end
-
-  def away_season_games(game_stats)
-    away_games = game_stats.select {|stat|  stat.team_id == team_id && stat.home_or_away == "away"}
-   
-    
-    away_games
+  def total_wins(games_or_stats)
+    home_games(games_or_stats).length + away_games(games_or_stats).length
   end
 
 end 

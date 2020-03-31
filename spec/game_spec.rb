@@ -42,7 +42,6 @@ RSpec.describe Game do
       it 'returns the difference of away goals and home goals' do
         expect(subject.difference_goals).to be(1)
       end
-
     end
   end
 end

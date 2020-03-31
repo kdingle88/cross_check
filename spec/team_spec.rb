@@ -144,4 +144,46 @@ RSpec.describe Team do
       end
     end
   end
+
+describe '#home_team_wins' do
+  context 'when called' do
+    team = stat_tracker.teams[0]
+
+    game_stats = stat_tracker.game_stats
+
+    home_wins = team.home_team_wins(game_stats)
+    
+
+    it 'returns Integer' do
+      expect(home_wins).to be_a(Array)
+    end
+    it 'returns away win percentage for all seasons' do
+      expect(home_wins.length).to eq(3)
+    end
+  end
+end
+
+describe '#away_team_wins' do
+  context 'when called' do
+    team = stat_tracker.teams[0]
+
+    game_stats = stat_tracker.game_stats
+
+    away_wins = team.away_team_wins(game_stats)
+    
+
+    it 'returns Integer' do
+      expect(away_wins).to be_a(Array)
+    end
+    it 'returns away win percentage for all seasons' do
+      expect(away_wins.length).to eq(1)
+    end
+  end
+end
+
+  # describe '#wins_per_season' do
+  #   skip
+  #   context 'when called' do
+  #   end
+  # end
 end

@@ -196,8 +196,6 @@ class StatTracker
   #Team Statistics
 
   def team_info(team_id)
-    
-    
     selected_team = teams.find {|team| team.team_id == team_id}
 
     {
@@ -208,22 +206,18 @@ class StatTracker
       abbreviation: selected_team.abbreviation,
       link: selected_team.link
     }
-    
-
-    
   end
 
+def best_season(team_id)
 
+end
 
 
   private
 
   def total_home_wins
-    winners_ot = games.select { |game| game.outcome == "home win OT" }
 
-    winners_reg = games.select {|game| game.outcome == "home win REG"}
-
-    winners_ot.length + winners_reg.length
+    teams.reduce(0) {|sum, team| sum + team.home_team_wins(game_stats).length}
   end
 
   def total_visitor_wins

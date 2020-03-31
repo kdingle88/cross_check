@@ -26,4 +26,5 @@ class Game
   def difference_goals
     (away_goals - home_goals).abs
   end
+  
 end
