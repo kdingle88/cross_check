@@ -2,6 +2,7 @@ require 'csv'
 require_relative 'game.rb'
 require_relative 'team.rb'
 require_relative 'game_stat.rb'
+require_relative 'games.rb'
 require 'pry'
 
 class StatTracker
@@ -35,66 +36,35 @@ class StatTracker
   #Game Statistics
 
   def highest_total_score
-    game_scores_sum = games.map { |game| game.total_goals}
-
-    game_scores_sum.max
+    Games.highest_total_score(games)
   end
 
   def lowest_total_score
-    game_scores_sum = games.map { |game| game.total_goals}
-
-    game_scores_sum.min
+    Games.lowest_total_score(games)
   end
 
   def biggest_blowout
-    game_scores_difference = games.map { |game| game.difference_goals}
-
-    game_scores_difference.max
+    Games.biggest_blowout(games)
   end
 
   def percentage_home_wins
-    home_wins = total_home_wins / games.length.to_f
-
-    home_wins.round(2)
+    Games.percentage_home_wins(games)
   end
 
   def percentage_visitor_wins
-    visitor_wins = total_visitor_wins / games.length.to_f
-
-    visitor_wins.round(2)
+    Games.percentage_visitor_wins(games)
   end
 
   def count_of_games_by_season
-    season_count = Hash.new 0
-
-    games.each do |game|
-      season_count[game.season] += 1
-    end
-
-    season_count
+    Games.count_of_games_by_season(games)
   end
 
   def average_goals_per_game
-    
-    total_goals_scored = games.reduce(0) {|sum, game| sum + game.total_goals }
-
-    avg_goals = total_goals_scored / games.length.to_f
-
-    avg_goals.round(2)
+    Games.average_goals_per_game(games)
   end
 
   def average_goals_by_season
-    avg_goal = Hash.new
-
-    goal_count = count_of_goals_by_season
-
-    season_count = count_of_games_by_season
-
-    season_count.each do |season, count|
-        season_avg = goal_count[season] / count.to_f
-      avg_goal[season] = season_avg.round(2)
-    end
-    avg_goal
+    Games.average_goals_by_season(games)
   end
 
   #League Statistics
@@ -215,26 +185,12 @@ end
 
   private
 
-  def total_home_wins
-
-    teams.reduce(0) {|sum, team| sum + team.home_team_wins(game_stats).length}
-  end
-
   def total_visitor_wins
     visitor_winners = games.select {|game| game.outcome == "away win REG"}
 
     visitor_winners.length
   end
 
-  def count_of_goals_by_season
-    goal_count = Hash.new 0
-
-    games.each do |game|
-      goal_count[game.season] += game.total_goals
-    end
-
-    goal_count
-  end
 
   def count_of_goals_by_team
     team_goal_count = Hash.new 0
