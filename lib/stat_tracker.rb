@@ -70,10 +70,11 @@ class StatTracker
   #League Statistics
 
   def count_of_teams
-    teams.length
+    Teams.count_of_teams(teams)
   end
 
   def best_offense
+    # Teams.best_offense(games,teams)
 
     highest_goals = count_of_goals_by_team.key(count_of_goals_by_team.values.max)
 

@@ -8,6 +8,8 @@ class Team
     @team_name = team[:teamname]
     @abbreviation = team[:abbreviation]
     @link = team[:link]
+    # @home_games = []
+    # @away_games = []
   end
 
   def home_games(games_or_stats)
@@ -18,10 +20,19 @@ class Team
       games_or_stats.select {|stat|  stat.team_id == team_id && stat.home_or_away == "home"}
     end
 
+    
+
   end
 
+  # def add_home_games(games)
+    #   games
+    #     .select { |game| team.id == game.home_team_id}
+    #     .each { |game| @home_games << game }
+    # end
+
   def home_goals(games)
-    home_games(games).reduce(0) {|sum, game| sum + game.home_goals}
+    home_games(games)
+      .reduce(0) {|sum, game| sum + game.home_goals}
   end
 
   def away_games(games_or_stats)
@@ -34,7 +45,8 @@ class Team
   end
 
   def away_goals(games)
-    away_games(games).reduce(0) {|sum, game| sum + game.away_goals}
+    away_games(games)
+      .reduce(0) {|sum, game| sum + game.away_goals}
   end
 
   def goals_allowed(games)
@@ -76,6 +88,11 @@ class Team
   def away_team_wins(game_stats)
     away_games(game_stats).select {|stat| stat.won == "TRUE"}
   end
+
+  def total_goals(games)
+    home_goals(games) + away_goals(games)
+  end
+
 
   # def wins_per_season
   #   #calcualte wins for each season..game stats should have an hash that returns season?

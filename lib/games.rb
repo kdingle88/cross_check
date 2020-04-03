@@ -59,9 +59,6 @@ class Games
     end
 
 
-
-
-
     private
 
     def total_home_wins(games)
