@@ -6,12 +6,12 @@ require_relative 'games.rb'
 require 'pry'
 
 class StatTracker
-  attr_reader :games, :teams, :game_stats 
+  attr_reader :games_repo, :teams_repo, :game_stats_repo
 
   def initialize(games, teams, game_stats)
-    @games = games
-    @teams = teams
-    @game_stats = game_stats
+    @games_repo = GameRepo.new(self,games)
+    @teams_repo = TeamsRepo.new(self, teams)
+    @game_stats_repo = GameStatsRepo.new(self, game_stats)
   end
 
   def self.from_csv(locations)
@@ -36,35 +36,35 @@ class StatTracker
   #Game Statistics
 
   def highest_total_score
-    Games.highest_total_score(games)
+    GamesRepo.highest_total_score(games)
   end
 
   def lowest_total_score
-    Games.lowest_total_score(games)
+    GamesRepo.lowest_total_score(games)
   end
 
   def biggest_blowout
-    Games.biggest_blowout(games)
+    GamesRepo.biggest_blowout(games)
   end
 
   def percentage_home_wins
-    Games.percentage_home_wins(games)
+    GamesRepo.percentage_home_wins(games)
   end
 
   def percentage_visitor_wins
-    Games.percentage_visitor_wins(games)
+    GamesRepo.percentage_visitor_wins(games)
   end
 
   def count_of_games_by_season
-    Games.count_of_games_by_season(games)
+    GamesRepo.count_of_games_by_season(games)
   end
 
   def average_goals_per_game
-    Games.average_goals_per_game(games)
+    GamesRepo.average_goals_per_game(games)
   end
 
   def average_goals_by_season
-    Games.average_goals_by_season(games)
+    GamesRepo.average_goals_by_season(games)
   end
 
   #League Statistics
@@ -74,14 +74,14 @@ class StatTracker
   end
 
   def best_offense
-    # Teams.best_offense(games,teams)
-
-    highest_goals = count_of_goals_by_team.key(count_of_goals_by_team.values.max)
-
-    best_o = teams.select {|team| team.team_id == highest_goals}
-
-    best_o[0].team_name
+    #the repo the answer should be . the method . the result
+    teams_repo.best_offense.team_name
     
+  end
+
+  def highest_number_of_goals_per_game
+    #repo where you 
+    game_stats_repo.highest_number_of_goals_per_game
   end
 
   def worst_offense
