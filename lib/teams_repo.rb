@@ -41,9 +41,19 @@ class TeamsRepo
       .find { |team| team.team_id == stat_tracker.team_id_with_highest_score_per_game_when_away}
   end
 
+  def highest_scoring_home_team
+    teams
+      .find { |team| team.team_id == stat_tracker.team_id_with_highest_score_per_game_when_home}
+  end
+
   def lowest_scoring_visitor
     teams
       .find { |team| team.team_id == stat_tracker.team_id_with_lowest_score_per_game_when_away}
+  end
+
+  def lowest_scoring_home_team
+    teams
+      .find { |team| team.team_id == stat_tracker.team_id_with_lowest_score_per_game_when_home}
   end
   
 end

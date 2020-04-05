@@ -48,6 +48,14 @@ class GamesRepo
       .min_by {|away_team_id, away_goals| away_goals }[0]
   end
 
+  def team_id_with_lowest_score_per_game_when_home
+    games
+      .group_by(&:home_team_id)
+      .map {|home_team_id, games| [home_team_id,total_home_goals(games)]}
+      .to_h
+      .min_by {|home_team_id, home_goals| home_goals }[0]
+  end
+
   private
 
   def team_id_with_lowest_number_of_goals_allowed_per_home_game 

@@ -104,6 +104,10 @@ class StatTracker
   def lowest_scoring_visitor
     teams_repo.lowest_scoring_visitor.team_name
   end
+
+  def lowest_scoring_home_team
+    teams_repo.lowest_scoring_home_team.team_name
+  end
   
 
 
@@ -136,21 +140,9 @@ class StatTracker
   def team_id_with_lowest_score_per_game_when_away
     games_repo.team_id_with_lowest_score_per_game_when_away
   end
-  
-  def highest_scoring_home_team
-    home_scores = teams.map {|team| team.home_goals(games)}
 
-    hi_score_homer = teams.select {|team| team.home_goals(games) == home_scores.max}
-
-    hi_score_homer[0].team_name
-  end
-
-  def lowest_scoring_home_team
-    home_scores = teams.map {|team| team.home_goals(games)}
-
-    low_score_homer = teams.select {|team| team.home_goals(games) == home_scores.min}
-
-    low_score_homer[0].team_name
+  def team_id_with_lowest_score_per_game_when_home
+    games_repo.team_id_with_lowest_score_per_game_when_home
   end
 
   def winningest_team
