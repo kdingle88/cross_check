@@ -352,6 +352,25 @@ RSpec.describe GamesRepo do
     end
   end
 
+  describe '#team_id_with_highest_score_per_game_when_home' do
+    it 'returns id of team with the highest number of home goals across all seasons' do
+      
+      games = [
+        build_game({ game_id: 2012030221,away_team_id: "3",home_team_id:"6",away_goals:5,home_goals:8}),
+        build_game({ game_id: 2012030222,away_team_id: "6",home_team_id:"3",away_goals:2,home_goals:3}),
+        build_game({ game_id: 2012030223,away_team_id: "3",home_team_id:"15",away_goals:1,home_goals:4}),
+        build_game({ game_id: 2012030224,away_team_id: "15",home_team_id:"6",away_goals:3,home_goals:5}),
+        build_game({ game_id: 2012030225,away_team_id: "6",home_team_id:"14",away_goals:2,home_goals:6}),
+        build_game({ game_id: 2012030226,away_team_id: "14",home_team_id:"3",away_goals:5,home_goals:1})
+      ]
+
+
+      games_repo = GamesRepo.new('stat_tracker_placeholder', games)
+
+      expect(games_repo.team_id_with_highest_score_per_game_when_home).to eql("6")
+    end
+  end
+
   describe '#team_id_with_lowest_score_per_game_when_away' do
     it 'returns id of team with the lowest number of away goals across all seasons' do
       

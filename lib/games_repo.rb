@@ -32,6 +32,14 @@ class GamesRepo
       .max_by {|away_team_id, away_goals| away_goals }[0]
   end
 
+  def team_id_with_highest_score_per_game_when_home
+    games
+      .group_by(&:home_team_id)
+      .map {|home_team_id, games| [home_team_id,total_home_goals(games)]}
+      .to_h
+      .max_by {|home_team_id, home_goals| home_goals }[0]
+  end
+
   def team_id_with_lowest_score_per_game_when_away
     games
       .group_by(&:away_team_id)
@@ -63,6 +71,11 @@ class GamesRepo
   def total_away_goals(games)
     games
       .reduce(0){|sum, game| sum + game.away_goals }
+  end
+
+  def total_home_goals(games)
+    games
+    .reduce(0){|sum, game| sum + game.home_goals }
   end
 
   class << self
