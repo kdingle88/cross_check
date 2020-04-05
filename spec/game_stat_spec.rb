@@ -33,7 +33,7 @@ stat_tracker = StatTracker.from_csv(locations)
 #   takeaways: 5
 # }
 
-RSpec.describe Game_Stat do
-  subject { Game_Stat.new(game_stat_data)}
+RSpec.describe GameStat do
+  subject { GameStat.new(game_stat_data)}
 
 end

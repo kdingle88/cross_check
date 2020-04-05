@@ -1,12 +1,48 @@
 class GamesRepo 
 
-  
+  attr_reader :games
+
   def initialize(stat_tracker, games)
     @stat_tracker = stat_tracker
     @games = games
   end
 
-  
+  def team_id_with_lowest_number_of_goals_allowed_per_game
+    team_id_with_lowest_number_of_goals_allowed_per_home_game
+      .merge(team_id_with_lowest_number_of_goals_allowed_per_away_game) do |team_id, home_difference,away_difference|
+        home_difference + away_difference
+      end
+      .min_by {|team_id,difference| difference}[0]
+
+  end
+
+  def team_id_with_highest_number_of_goals_allowed_per_game
+    team_id_with_lowest_number_of_goals_allowed_per_home_game
+      .merge(team_id_with_lowest_number_of_goals_allowed_per_away_game) do |team_id, home_difference,away_difference|
+        home_difference + away_difference
+      end
+      .max_by {|team_id,difference| difference}[0]
+  end
+
+  private
+
+  def team_id_with_lowest_number_of_goals_allowed_per_home_game 
+    games
+      .group_by(&:home_team_id)
+      .map { |home_team_id, games| [home_team_id, difference_of_goals_per_game(games)] }
+      .to_h
+  end
+  def team_id_with_lowest_number_of_goals_allowed_per_away_game 
+    games
+      .group_by(&:away_team_id)
+      .map { |away_team_id, games| [away_team_id, difference_of_goals_per_game(games)] }
+      .to_h
+  end
+
+  def difference_of_goals_per_game(games)
+    games
+      .reduce(0) { |sum, game| (sum + (game.home_goals - game.away_goals).abs)}
+  end
 
   class << self
     def highest_total_score(games)

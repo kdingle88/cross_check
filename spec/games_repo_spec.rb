@@ -2,6 +2,30 @@ require 'rspec'
 require './lib/games_repo'
 require './lib/game'
 
+def default_game_params
+  {
+  game_id:2012030221,
+  season:20122013,
+  type:"P",
+  date_time:2013-05-16,
+  away_team_id: "3",
+  home_team_id:"6",
+  away_goals:2,
+  home_goals:3,
+  outcome:"home win OT",
+  home_rink_side_starts:"left",
+  venue:"TD Garden",
+  venue_link:"/api/v1/venues/null",
+  venue_time_zone_id:"America/New_York",
+  venue_time_zone_offset:-4,
+  venue_time_zone_tz:"EDT"
+  }
+end
+
+def build_game(override_params = {})
+Game.new(default_game_params.merge(override_params))
+end
+
 game_uno = Game.new({
   game_id:2012030221,
   season:20122013,
@@ -272,7 +296,42 @@ RSpec.describe GamesRepo do
       end
     end
   end
+  describe '#team_id_with_lowest_number_of_goals_allowed_per_game' do
+    it 'returns id of team with the lowest number of goals allowed per game across all seasons' do
+      
+      games = [
+        build_game({ game_id: 2012030221,away_team_id: "3",home_team_id:"6",away_goals:5,home_goals:8}),
+        build_game({ game_id: 2012030222,away_team_id: "6",home_team_id:"3",away_goals:2,home_goals:3}),
+        build_game({ game_id: 2012030223,away_team_id: "3",home_team_id:"15",away_goals:1,home_goals:4}),
+        build_game({ game_id: 2012030224,away_team_id: "15",home_team_id:"6",away_goals:3,home_goals:5}),
+        build_game({ game_id: 2012030225,away_team_id: "6",home_team_id:"14",away_goals:2,home_goals:6}),
+        build_game({ game_id: 2012030226,away_team_id: "14",home_team_id:"3",away_goals:5,home_goals:1})
+      ]
 
+
+      games_repo = GamesRepo.new('stat_tracker_placeholder', games)
+
+      expect(games_repo.team_id_with_lowest_number_of_goals_allowed_per_game).to eql("15")
+    end
+  end
+  describe '#team_id_with_highest_number_of_goals_allowed_per_game' do
+    it 'returns id of team with the highest number of goals allowed per game across all seasons' do
+      
+      games = [
+        build_game({ game_id: 2012030221,away_team_id: "3",home_team_id:"6",away_goals:5,home_goals:8}),
+        build_game({ game_id: 2012030222,away_team_id: "6",home_team_id:"3",away_goals:2,home_goals:3}),
+        build_game({ game_id: 2012030223,away_team_id: "3",home_team_id:"15",away_goals:1,home_goals:4}),
+        build_game({ game_id: 2012030224,away_team_id: "15",home_team_id:"6",away_goals:3,home_goals:5}),
+        build_game({ game_id: 2012030225,away_team_id: "6",home_team_id:"14",away_goals:2,home_goals:6}),
+        build_game({ game_id: 2012030226,away_team_id: "14",home_team_id:"3",away_goals:5,home_goals:1})
+      ]
+
+
+      games_repo = GamesRepo.new('stat_tracker_placeholder', games)
+
+      expect(games_repo.team_id_with_highest_number_of_goals_allowed_per_game).to eql("3")
+    end
+  end
 
 
 end

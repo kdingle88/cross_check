@@ -1,15 +1,17 @@
 require 'csv'
 require_relative 'game.rb'
 require_relative 'team.rb'
-require_relative 'game_stat.rb'
-require_relative 'games.rb'
+require_relative 'game_stat'
+require_relative 'game_stats_repo.rb'
+require_relative 'games_repo.rb'
+require_relative 'teams_repo.rb'
 require 'pry'
 
 class StatTracker
   attr_reader :games_repo, :teams_repo, :game_stats_repo
 
   def initialize(games, teams, game_stats)
-    @games_repo = GameRepo.new(self,games)
+    @games_repo = GamesRepo.new(self,games)
     @teams_repo = TeamsRepo.new(self, teams)
     @game_stats_repo = GameStatsRepo.new(self, game_stats)
   end
@@ -26,7 +28,7 @@ class StatTracker
     
     games = games_list.map {|g| Game.new(g)}
     teams = teams_list.map {|t| Team.new(t)}
-    game_stats= game_teams_list.map {|l| Game_Stat.new(l)}
+    game_stats= game_teams_list.map {|l| GameStat.new(l)}
   
     stat_tracker = StatTracker.new(games, teams, game_stats)
 
@@ -70,7 +72,7 @@ class StatTracker
   #League Statistics
 
   def count_of_teams
-    Teams.count_of_teams(teams)
+    TeamsRepo.count_of_teams(teams)
   end
 
   def best_offense
@@ -79,35 +81,37 @@ class StatTracker
     
   end
 
-  def highest_number_of_goals_per_game
-    #repo where you 
-    game_stats_repo.highest_number_of_goals_per_game
-  end
-
   def worst_offense
-
-    lowest_goals = count_of_goals_by_team.key(count_of_goals_by_team.values.min)
-
-    worst_o = teams.select {|team| team.team_id == lowest_goals}
-
-    worst_o[0].team_name
+    teams_repo.worst_offense.team_name
   end
 
   def best_defense
-    selected_team = teams[0]
-    teams.each do |team|
-      team.goals_allowed(games) < selected_team.goals_allowed(games) ? selected_team = team : selected_team
-    end
-    selected_team.team_name
+    teams_repo.best_defense.team_name
   end
 
   def worst_defense
-    selected_team = teams[0]
-    teams.each do |team|
-      team.goals_allowed(games) > selected_team.goals_allowed(games) ? selected_team = team : selected_team
-    end
-    selected_team.team_name
+    teams_repo.worst_defense.team_name
   end
+
+
+
+  def team_id_with_highest_number_of_goals_per_game
+    #need this from games repo to use in teams repo   
+    game_stats_repo.team_id_with_highest_number_of_goals_per_game
+  end
+
+  def team_id_with_lowest_number_of_goals_per_game
+    game_stats_repo.team_id_with_lowest_number_of_goals_per_game
+  end
+
+  def team_id_with_lowest_number_of_goals_allowed_per_game
+    games_repo.team_id_with_lowest_number_of_goals_allowed_per_game
+  end
+
+  def team_id_with_highest_number_of_goals_allowed_per_game
+    games_repo.team_id_with_highest_number_of_goals_allowed_per_game
+  end
+
 
   def highest_scoring_visitor
     visitor_scores = teams.map {|team| team.away_goals(games)}

@@ -1,4 +1,4 @@
-class Game_Stat
+class GameStat
   attr_reader :game_id, :team_id, :home_or_away, :won, :settled_in, :head_coach, :goals, :shots, :hits, :pim, :power_play_opportunities, :power_play_goals, :face_off_win_percentage, :giveaways, :takeaways
 
   def initialize(game_stat)
