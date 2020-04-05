@@ -55,6 +55,11 @@ class TeamsRepo
     teams
       .find { |team| team.team_id == stat_tracker.team_id_with_lowest_score_per_game_when_home}
   end
+
+  def winningest_team
+    teams
+      .find {|team| team.team_id == stat_tracker.team_id_with_highest_total_wins}
+  end
   
 end
 

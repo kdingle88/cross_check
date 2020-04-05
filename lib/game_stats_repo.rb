@@ -26,38 +26,12 @@ class GameStatsRepo
   
   end
 
-  def team_id_with_lowest_number_of_goals_allowed_per_game
-    # game_stats 
-    #   .group_by(&:game_id)
-    #   .map { |game_id,stats| [game_id, difference_of_goals(stats) ]  }
-    #   .to_h
-      #Another method that finds the games for each team, then finds the difference in goals per game, and adds them together
-
-      # Hash[games_per_team(game_stats).keys.zip(difference_goals_per_game(game_stats).keys)]
-
-      # {
-      #   3483489938: 3
-      # }
-
-  #     game_stats
-  #     .group_by(&:team_id)
-  #     .map do |team_id, stat| [team_id, stat]
-  #       stat
-  #       .map(&:game_id)
-  #     end
-  #     .to_h
-
-    # game_stats
-    #   .group_by(&:team_id)
-    #   .map { |team_id,stats| [team_id, the_difference(stats)] }
-
-      game_stats
-      .group_by(&:game_id)
-      .map { |game_id,stats| [game_id, the_difference(stats)] }
+  def team_id_with_highest_total_wins
+    game_stats
+      .group_by(&:team_id)
+      .map{|team_id, stats| [team_id,total_wins(stats)]}
       .to_h
-
-      # Hash[games_per_team(game_stats).keys.zip(the_games(game_stats).keys)]
-
+      .max_by {|team_id,wins| wins}[0]
   end
   
   private
@@ -107,4 +81,9 @@ class GameStatsRepo
       .reduce(0) { |diff, stat| (diff - stat.goals).abs }
   end 
   
+  def total_wins(stats)
+    stats
+      .select {|stat| stat.won == TRUE}
+      .length
+  end
 end

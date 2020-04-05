@@ -108,6 +108,10 @@ class StatTracker
   def lowest_scoring_home_team
     teams_repo.lowest_scoring_home_team.team_name
   end
+
+  def winningest_team
+    teams_repo.winningest_team.team_name
+  end
   
 
 
@@ -143,6 +147,10 @@ class StatTracker
 
   def team_id_with_lowest_score_per_game_when_home
     games_repo.team_id_with_lowest_score_per_game_when_home
+  end
+
+  def team_id_with_highest_total_wins
+    game_stats_repo.team_id_with_highest_total_wins
   end
 
   def winningest_team
