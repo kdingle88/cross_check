@@ -25,13 +25,19 @@ class GamesRepo
   end
 
   def team_id_with_highest_score_per_game_when_away
-
     games
       .group_by(&:away_team_id)
       .map {|away_team_id, games| [away_team_id,total_away_goals(games)]}
       .to_h
       .max_by {|away_team_id, away_goals| away_goals }[0]
+  end
 
+  def team_id_with_lowest_score_per_game_when_away
+    games
+      .group_by(&:away_team_id)
+      .map {|away_team_id, games| [away_team_id,total_away_goals(games)]}
+      .to_h
+      .min_by {|away_team_id, away_goals| away_goals }[0]
   end
 
   private
