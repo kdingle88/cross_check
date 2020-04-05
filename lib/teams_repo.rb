@@ -35,6 +35,11 @@ class TeamsRepo
     teams 
       .find {|team| team.team_id == stat_tracker.team_id_with_highest_number_of_goals_allowed_per_game}
   end
+
+  def highest_scoring_visitor
+    teams
+      .find { |team| team.team_id == stat_tracker.team_id_with_highest_score_per_game_when_away}
+  end
   
 end
 

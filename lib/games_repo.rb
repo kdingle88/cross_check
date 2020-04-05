@@ -24,6 +24,16 @@ class GamesRepo
       .max_by {|team_id,difference| difference}[0]
   end
 
+  def team_id_with_highest_score_per_game_when_away
+
+    games
+      .group_by(&:away_team_id)
+      .map {|away_team_id, games| [away_team_id,total_away_goals(games)]}
+      .to_h
+      .max_by {|away_team_id, away_goals| away_goals }[0]
+
+  end
+
   private
 
   def team_id_with_lowest_number_of_goals_allowed_per_home_game 
@@ -42,6 +52,11 @@ class GamesRepo
   def difference_of_goals_per_game(games)
     games
       .reduce(0) { |sum, game| (sum + (game.home_goals - game.away_goals).abs)}
+  end
+
+  def total_away_goals(games)
+    games
+      .reduce(0){|sum, game| sum + game.away_goals }
   end
 
   class << self

@@ -93,6 +93,12 @@ class StatTracker
     teams_repo.worst_defense.team_name
   end
 
+  def highest_scoring_visitor
+    teams_repo.highest_scoring_visitor.team_name
+  end
+
+  
+
 
 
   def team_id_with_highest_number_of_goals_per_game
@@ -112,13 +118,8 @@ class StatTracker
     games_repo.team_id_with_highest_number_of_goals_allowed_per_game
   end
 
-
-  def highest_scoring_visitor
-    visitor_scores = teams.map {|team| team.away_goals(games)}
-
-    hi_score_visitor = teams.select {|team| team.away_goals(games) == visitor_scores.max}
-
-    hi_score_visitor[0].team_name
+  def team_id_with_highest_score_per_game_when_away
+    games_repo.team_id_with_highest_score_per_game_when_away
   end
   
   def highest_scoring_home_team
