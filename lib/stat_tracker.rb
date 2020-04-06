@@ -134,7 +134,7 @@ class StatTracker
     games_repo.best_season(team_id)
   end
 
-  def worst_season 
+  def worst_season(team_id)
     games_repo.worst_season(team_id)
   end
 
@@ -148,6 +148,14 @@ class StatTracker
 
   def fewest_goals_scored(team_id)
     game_stats_repo.fewest_goals_scored(team_id)
+  end
+
+  def favorite_opponent(team_id)
+    teams_repo.favorite_opponent(team_id).name
+  end
+
+  def rival(team_id)
+    teams_repo.rival(team_id).name
   end
 
 
@@ -201,7 +209,15 @@ class StatTracker
     games_repo.array_of_team_ids_with_better_away_records
   end
 
-  
+  def team_id_lowest_win_percentage_against_the_given_team(team_id)
+    games_repo.team_id_lowest_win_percentage_against_the_given_team(team_id)
+  end
+
+  def team_id_highest_win_percentage_against_the_given_team(team_id)
+    games_repo.team_id_highest_win_percentage_against_the_given_team(team_id)
+  end
+
+
 
 
   private

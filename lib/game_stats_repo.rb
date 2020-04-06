@@ -55,6 +55,7 @@ class GameStatsRepo
       .min_by(&:goals)
       .goals
   end
+
   
   private
 

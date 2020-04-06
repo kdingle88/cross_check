@@ -30,17 +30,63 @@ class GamesRepo
       
   end
 
+  def team_id_lowest_win_percentage_against_the_given_team(team_id)
+    home_opponent_win_percentage(team_id)
+    .merge(away_opponent_win_percentage(team_id)) do |team_id, home_win_percentage,away_win_percentage|
+      (home_win_percentage + away_win_percentage).fdiv(2)
+    end
+    .min_by {|team_id,percentage| percentage}[0] 
+  end
+
+  def team_id_highest_win_percentage_against_the_given_team(team_id)
+    home_opponent_win_percentage(team_id)
+    .merge(away_opponent_win_percentage(team_id)) do |team_id, home_win_percentage,away_win_percentage|
+      (home_win_percentage + away_win_percentage).fdiv(2)
+    end
+    .max_by {|team_id,percentage| percentage}[0] 
+  end
+
 
 
   #Other Methods 
 
-  def win_percentage_for_team_per_season(games = games)
+  def home_opponent_win_percentage(team_id)
     games
+      .find_all { |game| game.home_team_id == team_id}
+      .group_by(&:away_team_id)
+      .map do |away_team_id, games| 
+        total_games_played = games.length
+
+        games_won = games.select {|game| game.outcome.include?("home win")}.length
+
+        [away_team_id, (games_won.fdiv(total_games_played)).round(2)] 
+      end
+      .to_h
+  end
+
+  def away_opponent_win_percentage(team_id)
+    games
+      .find_all { |game| game.away_team_id == team_id}
+      .group_by(&:home_team_id)
+      .map do |home_team_id, games| 
+        total_games_played = games.length
+
+        games_won = games.select {|game| game.outcome.include?("away win")}.length
+
+        [home_team_id, (games_won.fdiv(total_games_played)).round(2)] 
+      end
+      .to_h
+  end
+
+ 
+
+  def win_percentage_for_team_per_season(games_list = games)
+    games_list
       .group_by(&:season)
       .map {|season, games|  [season,stat_tracker.win_percentage(games)]}
   end
 
-  def win_percentage(games = games)
+  def win_percentage(games_list = games)
     (percent_home_wins(games) + percent_away_wins(games)).fdiv(2)
   end
   
@@ -150,14 +196,14 @@ class GamesRepo
       .max_by {|team_id,wins| wins}[0]
   end
 
-  def percent_home_wins(games = games )
+  def percent_home_wins(games_list = games)
     games
       .group_by(&:home_team_id)
       .map{|team_id,games| [team_id,((total_home_wins(games)).fdiv(games.length)).round(2) ]}
       .to_h
   end
 
-  def percent_away_wins(games = games)
+  def percent_away_wins(games_list = games)
     games
       .group_by(&:away_team_id)
       .map{|team_id,games| [team_id,((total_away_wins(games)).fdiv(games.length)).round(2) ]}
@@ -245,7 +291,6 @@ class GamesRepo
       games.select { |game|  game.outcome.include? "away win"}
         .length 
     end
-
   end
 
 

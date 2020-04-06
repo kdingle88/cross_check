@@ -438,11 +438,43 @@ RSpec.describe GamesRepo do
         build_game({ game_id: 2012030225,away_team_id: "6",home_team_id:"14",outcome:"away win OT"}),
         build_game({ game_id: 2012030226,away_team_id: "14",home_team_id:"3",outcome:"away win REG"})
       ]
-
-
       games_repo = GamesRepo.new('stat_tracker_placeholder', games)
 
       expect(games_repo.array_of_team_ids_with_better_away_records).to contain_exactly("15","6", "14")
+    end
+  end
+  
+  describe '#team_id_lowest_win_percentage_against_the_given_team' do
+    it 'returns team id of lowest win percentage against givin team' do
+      
+      games = [
+        build_game({ game_id: 2012030221,away_team_id: "3",home_team_id:"15", outcome:"home win OT"}),
+        build_game({ game_id: 2012030222,away_team_id: "6",home_team_id:"15",outcome:"away win REG"}),
+        build_game({ game_id: 2012030223, away_team_id: "6", home_team_id:"15", outcome: "away win REG"}),
+        build_game({ game_id: 2012030224,away_team_id: "15",home_team_id:"6", outcome:"away win REG"}),
+        build_game({ game_id: 2012030225,away_team_id: "3",home_team_id:"15",outcome:"away win OT"}),
+        build_game({ game_id: 2012030226,away_team_id: "3",home_team_id:"15",outcome:"away win REG"})
+      ]
+      games_repo = GamesRepo.new('stat_tracker_placeholder', games)
+
+      expect(games_repo.team_id_lowest_win_percentage_against_the_given_team("3")).to eql("15")
+    end
+  end
+
+  describe '#team_id_highest_win_percentage_against_the_given_team' do
+    it 'returns team id of highest win percentage against givin team' do
+      
+      games = [
+        build_game({ game_id: 2012030221,away_team_id: "3",home_team_id:"15", outcome:"home win OT"}),
+        build_game({ game_id: 2012030222,away_team_id: "6",home_team_id:"15",outcome:"away win REG"}),
+        build_game({ game_id: 2012030223, away_team_id: "6", home_team_id:"15", outcome: "away win REG"}),
+        build_game({ game_id: 2012030224,away_team_id: "3",home_team_id:"6", outcome:"away win REG"}),
+        build_game({ game_id: 2012030225,away_team_id: "3",home_team_id:"15",outcome:"away win OT"}),
+        build_game({ game_id: 2012030226,away_team_id: "3",home_team_id:"15",outcome:"away win REG"})
+      ]
+      games_repo = GamesRepo.new('stat_tracker_placeholder', games)
+
+      expect(games_repo.team_id_highest_win_percentage_against_the_given_team("3")).to eql("6")
     end
   end
 

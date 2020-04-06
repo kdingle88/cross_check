@@ -85,6 +85,16 @@ class TeamsRepo
       link: selected_team.link
     }
 
+    def favorite_opponent(team_id)
+      teams
+        .find {|team| team.team_id == stat_tracker.team_id_lowest_win_percentage_against_the_given_team}
+    end
+
+    def rival(team_id)
+      teams
+        .find {|team| team.team_id == stat_tracker.team_id_highest_win_percentage_against_the_given_team}
+    end
+
   
 end
 
