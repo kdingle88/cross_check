@@ -2,7 +2,7 @@ require 'pry'
 
 class TeamsRepo 
 
-  attr_reader :stat_tracker :teams
+  attr_reader :stat_tracker, :teams
 
   def initialize(stat_tracker, teams)
     @stat_tracker = stat_tracker
@@ -72,6 +72,19 @@ class TeamsRepo
     teams
       .select {|team| stat_tracker.array_of_team_ids_with_better_away_records.include?(team.team_id)}
   end
+
+  def team_info(team_id)
+    selected_team = teams.find {|team| team.team.id == team_id  }
+
+    {
+      team_id: selected_team.team_id,
+      franchise_id: selected_team.franchise_id,
+      short_name: selected_team.short_name,
+      team_name: selected_team.team_name,
+      abbreviation: selected_team.abbreviation,
+      link: selected_team.link
+    }
+
   
 end
 

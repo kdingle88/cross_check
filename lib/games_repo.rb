@@ -1,12 +1,26 @@
 class GamesRepo 
 
-  attr_reader :games
+  attr_reader :stat_tracker, :games
 
   def initialize(stat_tracker, games)
     @stat_tracker = stat_tracker
     @games = games
   end
 
+  #StatTracker Methods
+
+  def best_season
+    games
+      .find {|game| game.away_team_id == stat_tracker.team_id_with_highest_percent_wins || game.home_team_id == stat_tracker.team_id_with_highest_percent_wins }
+  end
+
+  def worst_season
+    games
+      .find {|game| game.away_team_id == stat_tracker.team_id_with_lowest_percent_wins || game.home_team_id == stat_tracker.team_id_with_lowest_percent_wins }
+  end
+
+  #Other Methods 
+  
   def team_id_with_lowest_number_of_goals_allowed_per_game
     team_id_with_lowest_number_of_goals_allowed_per_home_game
       .merge(team_id_with_lowest_number_of_goals_allowed_per_away_game) do |team_id, home_difference,away_difference|
@@ -74,6 +88,7 @@ class GamesRepo
   end
 
   private
+
 
   def team_id_with_lowest_number_of_goals_allowed_per_home_game 
     games

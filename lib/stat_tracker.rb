@@ -123,10 +123,25 @@ class StatTracker
       .map(&:team_name)
   end
 
+  #Team Statistics
 
 
-  def team_id_with_highest_average_of_goals_per_game
-    #need this from games repo to use in teams repo   
+  def team_info(team_id)
+    teams_repo.team_info(team_id)
+  end
+
+  def best_season(team_id)
+    games_repo.best_season(team_id).season
+  end
+
+  def worst_season 
+    games_repo.worst_season(team_id).season
+  end
+
+
+  #Other Methods
+
+  def team_id_with_highest_average_of_goals_per_game 
     game_stats_repo.team_id_with_highest_number_of_goals_per_game
   end
 
@@ -162,6 +177,10 @@ class StatTracker
     game_stats_repo.team_id_with_highest_percent_wins
   end
 
+  def team_id_with_lowest_percent_wins
+    game_stats_repo.team_id_with_lowest_percent_wins
+  end
+
   def team_id_with_biggest_difference_in_home_away_wins
     games_repo.team_id_with_biggest_difference_in_home_away_wins
   end
@@ -170,24 +189,7 @@ class StatTracker
     games_repo.array_of_team_ids_with_better_away_records
   end
 
-  #Team Statistics
-
-  def team_info(team_id)
-    selected_team = teams.find {|team| team.team_id == team_id}
-
-    {
-      team_id: selected_team.team_id,
-      franchise_id: selected_team.franchise_id,
-      short_name: selected_team.short_name,
-      team_name: selected_team.team_name,
-      abbreviation: selected_team.abbreviation,
-      link: selected_team.link
-    }
-  end
-
-def best_season(team_id)
-
-end
+  
 
 
   private
