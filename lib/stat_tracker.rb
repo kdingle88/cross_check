@@ -131,11 +131,20 @@ class StatTracker
   end
 
   def best_season(team_id)
-    games_repo.best_season(team_id).season
+    games_repo.best_season(team_id)
   end
 
   def worst_season 
-    games_repo.worst_season(team_id).season
+    games_repo.worst_season(team_id)
+  end
+
+  def average_win_percentage(team_id)
+    games_repo.average_win_percentage(team_id)
+  end
+
+  def most_goals_scored(team_id)
+    #Follow Example
+    game_stats_repo.most_goals_scored(team_id)
   end
 
 

@@ -7,19 +7,42 @@ class GamesRepo
     @games = games
   end
 
-  #StatTracker Methods
-
-  def best_season
+  def best_season(team_id)
     games
-      .find {|game| game.away_team_id == stat_tracker.team_id_with_highest_percent_wins || game.home_team_id == stat_tracker.team_id_with_highest_percent_wins }
+      .find_all {|game| game.away_team_id == team_id || game.home_team_id == team_id }
+      .group_by(&:season)
+      .map {|season, games|  [season,win_percentage(games)]}
+      .max_by {|season,win_percentage| win_percentage}[0]
   end
 
-  def worst_season
+  def worst_season(team_id)
     games
-      .find {|game| game.away_team_id == stat_tracker.team_id_with_lowest_percent_wins || game.home_team_id == stat_tracker.team_id_with_lowest_percent_wins }
+      .find_all {|game| game.away_team_id == team_id || game.home_team_id == team_id }
+      .group_by(&:season)
+      .map {|season, games|  [season,win_percentage(games)]}
+      .min_by {|season,win_percentage| win_percentage}[0]
   end
+
+  def average_win_percentage(team_id)
+    all_games_for_team_id = games.find_all {|game| game.away_team_id == team_id || game.home_team_id == team_id}
+
+      win_percentage(all_games)
+      
+  end
+
+
 
   #Other Methods 
+
+  def win_percentage_for_team_per_season(games = games)
+    games
+      .group_by(&:season)
+      .map {|season, games|  [season,stat_tracker.win_percentage(games)]}
+  end
+
+  def win_percentage(games = games)
+    (percent_home_wins(games) + percent_away_wins(games)).fdiv(2)
+  end
   
   def team_id_with_lowest_number_of_goals_allowed_per_game
     team_id_with_lowest_number_of_goals_allowed_per_home_game
@@ -127,14 +150,14 @@ class GamesRepo
       .max_by {|team_id,wins| wins}[0]
   end
 
-  def percent_home_wins
+  def percent_home_wins(games = games )
     games
       .group_by(&:home_team_id)
       .map{|team_id,games| [team_id,((total_home_wins(games)).fdiv(games.length)).round(2) ]}
       .to_h
   end
 
-  def percent_away_wins
+  def percent_away_wins(games = games)
     games
       .group_by(&:away_team_id)
       .map{|team_id,games| [team_id,((total_away_wins(games)).fdiv(games.length)).round(2) ]}
