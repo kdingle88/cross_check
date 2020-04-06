@@ -27,8 +27,8 @@ def build_stat(override_params = {})
 end
 
 RSpec.describe GameStatsRepo do
-  describe '#team_id_with_highest_number_of_goals_per_game' do
-    it 'returns id of team with the highest number of goals per game across all seasons' do
+  describe '#team_id_with_highest_average_of_goals_per_game' do
+    it 'returns id of team with the highest average of goals per game across all seasons' do
       stats = [
         build_stat({ game_id: 2012030222,team_id: "1", goals: 4}),
         build_stat({ game_id: 2012030223,team_id: "2", goals: 5}),
@@ -40,12 +40,12 @@ RSpec.describe GameStatsRepo do
 
       game_stats_repo = GameStatsRepo.new('stat_tracker_placeholder', stats)
 
-      expect(game_stats_repo.team_id_with_highest_number_of_goals_per_game).to eql("5")
+      expect(game_stats_repo.team_id_with_highest_average_of_goals_per_game).to eql("3")
     end
   end
 
-  describe '#team_id_with_lowest_number_of_goals_per_game' do
-    it 'returns id of team with the highest number of goals per game across all seasons' do
+  describe '#team_id_with_lowest_average_of_goals_per_game' do
+    it 'returns id of team with the lowest average of goals per game across all seasons' do
       stats = [
         build_stat({ game_id: 2012030222,team_id: "1", goals: 4}),
         build_stat({ game_id: 2012030223,team_id: "2", goals: 5}),
@@ -57,12 +57,12 @@ RSpec.describe GameStatsRepo do
 
       game_stats_repo = GameStatsRepo.new('stat_tracker_placeholder', stats)
 
-      expect(game_stats_repo.team_id_with_lowest_number_of_goals_per_game).to eql("4")
+      expect(game_stats_repo.team_id_with_lowest_average_of_goals_per_game).to eql("4")
     end
   end
 
-  describe '#team_id_with_highest_total_wins' do
-    it 'returns id of team with highest total wins across all seasons' do
+  describe '#team_id_with_highest_percent_wins' do
+    it 'returns id of team with highest percent wins across all seasons' do
       stats = [
         build_stat({ game_id: 2012030221,team_id: "1", goals: 6, won: TRUE,}),
         build_stat({ game_id: 2012030221,team_id: "2", goals: 1, won: TRUE,}),
@@ -74,7 +74,7 @@ RSpec.describe GameStatsRepo do
 
       game_stats_repo = GameStatsRepo.new('stat_tracker_placeholder', stats)
 
-      expect(game_stats_repo.team_id_with_highest_total_wins).to eql("2")
+      expect(game_stats_repo.team_id_with_highest_percent_wins).to eql("2")
     end
   end
 end

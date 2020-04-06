@@ -2,6 +2,8 @@ require 'pry'
 
 class TeamsRepo 
 
+  attr_reader :stat_tracker :teams
+
   def initialize(stat_tracker, teams)
     @stat_tracker = stat_tracker
     @teams = teams
@@ -59,6 +61,11 @@ class TeamsRepo
   def winningest_team
     teams
       .find {|team| team.team_id == stat_tracker.team_id_with_highest_total_wins}
+  end
+
+  def best_fans 
+    teams
+      .find {|team| team.team_id == stat_tracker.team_id_with_biggest_difference_in_home_away_wins}
   end
   
 end

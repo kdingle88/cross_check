@@ -56,6 +56,14 @@ class GamesRepo
       .min_by {|home_team_id, home_goals| home_goals }[0]
   end
 
+  def team_id_with_biggest_difference_in_home_away_wins
+    percent_home_wins
+      .merge(percent_away_wins) do |team_id, home_win_percent,away_win_percent|
+        home_win_percent - away_win_percent
+      end
+      .max_by {|team_id,difference| difference}[0]
+  end
+
   private
 
   def team_id_with_lowest_number_of_goals_allowed_per_home_game 
@@ -84,6 +92,41 @@ class GamesRepo
   def total_home_goals(games)
     games
     .reduce(0){|sum, game| sum + game.home_goals }
+  end
+
+
+  def team_id_with_highest_percent_wins
+    game_stats
+      .group_by(&:team_id)
+      .map{|team_id, stats| [team_id,((total_wins(stats)).fdiv(stats.length)).round(2)]}
+      .to_h
+      .max_by {|team_id,wins| wins}[0]
+  end
+
+  def percent_home_wins
+    games
+      .group_by(&:home_team_id)
+      .map{|team_id,games| [team_id,((total_home_wins(games)).fdiv(games.length)).round(2) ]}
+      .to_h
+  end
+
+  def percent_away_wins
+    games
+      .group_by(&:away_team_id)
+      .map{|team_id,games| [team_id,((total_away_wins(games)).fdiv(games.length)).round(2) ]}
+      .to_h
+  end
+
+  def total_home_wins(games)
+    games
+      .select {|game| game.outcome.include?("home win")}
+      .length
+  end
+
+  def total_away_wins(games)
+    games
+      .select {|game| game.outcome.include?("away win")}
+      .length
   end
 
   class << self

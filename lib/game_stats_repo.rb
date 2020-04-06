@@ -9,27 +9,27 @@ class GameStatsRepo
     @game_stats = game_stats
   end
 
-  def team_id_with_highest_number_of_goals_per_game
+  def team_id_with_highest_average_of_goals_per_game
     game_stats
       .group_by(&:team_id)
-      .map {|team_id,stats| [team_id,sum_of_goals(stats)]}
+      .map {|team_id,stats| [team_id,((sum_of_goals(stats)).fdiv(stats.length)).round(2)]}
       .to_h
       .max_by { |team_id, goals| goals }[0]
   end
 
-  def team_id_with_lowest_number_of_goals_per_game
+  def team_id_with_lowest_average_of_goals_per_game
     game_stats
     .group_by(&:team_id)
-    .map {|team_id,stats| [team_id,sum_of_goals(stats)]}
+    .map {|team_id,stats| [team_id,((sum_of_goals(stats)).fdiv(stats.length)).round(2)]}
     .to_h
     .min_by {|team_id,goals| goals}[0]
   
   end
 
-  def team_id_with_highest_total_wins
+  def team_id_with_highest_percent_wins
     game_stats
       .group_by(&:team_id)
-      .map{|team_id, stats| [team_id,total_wins(stats)]}
+      .map{|team_id, stats| [team_id,((total_wins(stats)).fdiv(stats.length)).round(2)]}
       .to_h
       .max_by {|team_id,wins| wins}[0]
   end

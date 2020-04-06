@@ -113,15 +113,18 @@ class StatTracker
     teams_repo.winningest_team.team_name
   end
   
+  def best_fans
+    teams_repo.best_fans.team_name
+  end
 
 
 
-  def team_id_with_highest_number_of_goals_per_game
+  def team_id_with_highest_average_of_goals_per_game
     #need this from games repo to use in teams repo   
     game_stats_repo.team_id_with_highest_number_of_goals_per_game
   end
 
-  def team_id_with_lowest_number_of_goals_per_game
+  def team_id_with_lowest_average_of_goals_per_game
     game_stats_repo.team_id_with_lowest_number_of_goals_per_game
   end
 
@@ -149,25 +152,12 @@ class StatTracker
     games_repo.team_id_with_lowest_score_per_game_when_home
   end
 
-  def team_id_with_highest_total_wins
-    game_stats_repo.team_id_with_highest_total_wins
+  def team_id_with_highest_percent_wins
+    game_stats_repo.team_id_with_highest_percent_wins
   end
 
-  def winningest_team
-    team_win_pct = teams.map {|team| team.win_percentage(game_stats)}
-
-    winning_team = teams.find {|team| team.win_percentage(game_stats) == team_win_pct.max} 
-
-    winning_team.team_name
-
-  end
-
-  def best_fans
-    teams_pct_diff = teams.map {|team| team.home_win_percentage(game_stats) - team.away_win_percentage(game_stats)}
-
-    team_with_best_fans = teams.find { |team| team.home_win_percentage(game_stats) == teams_pct_diff.max }
-
-    team_with_best_fans.team_name
+  def team_id_with_biggest_difference_in_home_away_wins
+    games_repo.team_id_with_biggest_difference_in_home_away_wins
   end
 
   def worst_fans
