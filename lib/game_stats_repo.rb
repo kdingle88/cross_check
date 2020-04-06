@@ -48,6 +48,13 @@ class GameStatsRepo
       .max_by(&:goals)
       .goals
   end
+
+  def fewest_goals_scored(team_id)
+    game_stats
+      .find_all { |game_stat|  game_stat.team_id == team_id}
+      .min_by(&:goals)
+      .goals
+  end
   
   private
 

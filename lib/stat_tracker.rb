@@ -143,8 +143,11 @@ class StatTracker
   end
 
   def most_goals_scored(team_id)
-    #Follow Example
     game_stats_repo.most_goals_scored(team_id)
+  end
+
+  def fewest_goals_scored(team_id)
+    game_stats_repo.fewest_goals_scored(team_id)
   end
 
 

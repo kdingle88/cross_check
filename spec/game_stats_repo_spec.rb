@@ -111,4 +111,21 @@ RSpec.describe GameStatsRepo do
       expect(game_stats_repo.most_goals_scored("1")).to eql(6)
     end
   end
+
+  describe '#fewest_goals_scored' do
+    it 'returns lowest number of goals a particular team has scored in a single game' do
+      stats = [
+        build_stat({ game_id: 2012030221,team_id: "1", goals: 6, won: TRUE,}),
+        build_stat({ game_id: 2012030221,team_id: "2", goals: 1, won: TRUE,}),
+        build_stat({ game_id: 2012030225,team_id: "2", goals: 5, won: TRUE,}),
+        build_stat({ game_id: 2012030225,team_id: "5", goals: 4, won: FALSE,}),
+        build_stat({ game_id: 2012030227,team_id: "5", goals: 2, won: FALSE,}),
+        build_stat({ game_id: 2012030227,team_id: "1", goals: 4, won: FALSE,}),
+      ]
+
+      game_stats_repo = GameStatsRepo.new('stat_tracker_placeholder', stats)
+
+      expect(game_stats_repo.fewest_goals_scored("1")).to eql(4)
+    end
+  end
 end
