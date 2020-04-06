@@ -67,6 +67,11 @@ class TeamsRepo
     teams
       .find {|team| team.team_id == stat_tracker.team_id_with_biggest_difference_in_home_away_wins}
   end
+
+  def worst_fans
+    teams
+      .select {|team| stat_tracker.array_of_team_ids_with_better_away_records.include?(team.team_id)}
+  end
   
 end
 

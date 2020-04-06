@@ -117,6 +117,12 @@ class StatTracker
     teams_repo.best_fans.team_name
   end
 
+  def worst_fans
+    teams_repo
+      .worst_fans
+      .map(&:team_name)
+  end
+
 
 
   def team_id_with_highest_average_of_goals_per_game
@@ -160,10 +166,8 @@ class StatTracker
     games_repo.team_id_with_biggest_difference_in_home_away_wins
   end
 
-  def worst_fans
-    worst_teams =teams.select {|team| team.home_win_percentage(game_stats) < team.away_win_percentage(game_stats)}
-    
-    worst_teams
+  def array_of_team_ids_with_better_away_records
+    games_repo.array_of_team_ids_with_better_away_records
   end
 
   #Team Statistics

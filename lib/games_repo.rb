@@ -64,6 +64,15 @@ class GamesRepo
       .max_by {|team_id,difference| difference}[0]
   end
 
+  def array_of_team_ids_with_better_away_records
+    percent_home_wins
+      .merge(percent_away_wins) do |team_id, home_win_percent,away_win_percent|
+        home_win_percent - away_win_percent
+      end
+      .select {|team_id, difference| difference < 0  }
+      .map {|team_id, difference| team_id}
+  end
+
   private
 
   def team_id_with_lowest_number_of_goals_allowed_per_home_game 
