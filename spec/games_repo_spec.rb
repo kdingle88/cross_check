@@ -489,21 +489,45 @@ RSpec.describe GamesRepo do
     end
   end
 
-  describe '#biggest_team_blowout' do
+  describe '#biggest_team_blowout' , :focus => true do
+    team_id = "1"
+
+        away_team_id = "2"
+
+        games = [
+          build_game({game_id: 11, away_team_id: team_id, home_team_id: away_team_id,away_goals:1,home_goals:0}),
+          build_game({game_id: 12, away_team_id: team_id, home_team_id: away_team_id,away_goals:0,home_goals:1}),
+          build_game({game_id: 13, away_team_id: team_id, home_team_id: away_team_id,away_goals:3,home_goals:1}),
+          build_game({game_id: 14, away_team_id: away_team_id, home_team_id: team_id,away_goals:3,home_goals:0}),
+        ]
+    
     it 'returns biggest difference between team goals and opponent goals for a win for the given team' do   
-      games = [
-        build_game({ game_id: 2012030221,away_team_id: "3",home_team_id:"15", outcome:"home win OT"}),
-        build_game({ game_id: 2012030222,away_team_id: "6",home_team_id:"15",outcome:"away win REG"}),
-        build_game({ game_id: 2012030223, away_team_id: "6", home_team_id:"15", outcome: "away win REG"}),
-        build_game({ game_id: 2012030224,away_team_id: "3",home_team_id:"6", outcome:"away win REG"}),
-        build_game({ game_id: 2012030225,away_team_id: "3",home_team_id:"15",outcome:"away win OT"}),
-        build_game({ game_id: 2012030226,away_team_id: "3",home_team_id:"15",outcome:"away win REG"})
-      ]
 
       
+
+      stat_tracker = double()
+
+      stat_tracker.stub(:games_won_by_given_team).with(team_id) { [11,13]}
+
+
       games_repo = GamesRepo.new(stat_tracker, games)
 
-      expect(games_repo.biggest_team_blowout("3")).to eql("6")
+      expect(games_repo.biggest_team_blowout(team_id)).to eql(2)
+
+    end
+
+    it 'returns biggest difference between team goals and opponent goals for a win for the given team' do   
+
+      
+
+      stat_tracker = double()
+
+      stat_tracker.stub(:games_won_by_given_team).with(away_team_id) { [12,14]}
+
+
+      games_repo = GamesRepo.new(stat_tracker, games)
+      
+      expect(games_repo.biggest_team_blowout(away_team_id)).to eql(3)
     end
   end
 

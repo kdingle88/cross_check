@@ -140,7 +140,11 @@ RSpec.describe GameStatsRepo do
         build_stat({ game_id: 2012030227,team_id: "1", goals: 4, won: FALSE,}),
       ]
 
-      game_stats_repo = GameStatsRepo.new('stat_tracker_placeholder', stats)
+      stat_tracker = double()
+
+      # stat_tracker.stub()
+
+      game_stats_repo = GameStatsRepo.new(stat_tracker, stats)
 
       expect(game_stats_repo.games_won_by_given_team("1")).to include(2012030221)
     end

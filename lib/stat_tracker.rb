@@ -166,6 +166,9 @@ class StatTracker
     games_repo.worst_loss
   end
 
+  def head_to_head(team_id)
+    teams_repo
+  end
 
 
 
