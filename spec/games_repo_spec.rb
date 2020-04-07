@@ -478,6 +478,23 @@ RSpec.describe GamesRepo do
     end
   end
 
+  describe '#biggest_blowout' do
+    it 'returns biggest difference between team goals and opponent goals for a win for the given team' do
+      
+      games = [
+        build_game({ game_id: 2012030221,away_team_id: "3",home_team_id:"15", outcome:"home win OT"}),
+        build_game({ game_id: 2012030222,away_team_id: "6",home_team_id:"15",outcome:"away win REG"}),
+        build_game({ game_id: 2012030223, away_team_id: "6", home_team_id:"15", outcome: "away win REG"}),
+        build_game({ game_id: 2012030224,away_team_id: "3",home_team_id:"6", outcome:"away win REG"}),
+        build_game({ game_id: 2012030225,away_team_id: "3",home_team_id:"15",outcome:"away win OT"}),
+        build_game({ game_id: 2012030226,away_team_id: "3",home_team_id:"15",outcome:"away win REG"})
+      ]
+      games_repo = GamesRepo.new('stat_tracker_placeholder', games)
+
+      expect(games_repo.biggest_blowout("3")).to eql("6")
+    end
+  end
+
 
 
 end

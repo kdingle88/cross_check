@@ -56,8 +56,22 @@ class GameStatsRepo
       .goals
   end
 
+  def games_won_by_given_team(team_id)
+    game_stats
+      .find_all {|stat| stat.team_id == team_id && stat.won == TRUE}
+      .map(&:game_id)
+  end
+
+  def games_lost_by_given_team(team_id)
+    game_stats
+      .find_all {|stat| stat.team_id == team_id && stat.won == FALSE}
+      .map(&:game_id)
+  end
+
   
   private
+
+  
 
   def sum_of_goals(stats)
     stats

@@ -46,7 +46,19 @@ class GamesRepo
     .max_by {|team_id,percentage| percentage}[0] 
   end
 
+  def biggest_team_blowout(team_id)
+      games
+        .find_all {|game| stat_tracker.games_won_by_given_team(team_id).include?(game.game_id)}
+        .map {|game| (game.home_goals - game.away_goals).abs}
+        .max
+  end
 
+  def worst_loss(team_id)
+      games
+        .find_all {|game| stat_tracker.games_lost_by_given_team(team_id).include?(game.game_id)}
+        .map {|game| (game.home_goals - game.away_goals).abs}
+        .max
+  end
 
   #Other Methods 
 
@@ -77,8 +89,6 @@ class GamesRepo
       end
       .to_h
   end
-
- 
 
   def win_percentage_for_team_per_season(games_list = games)
     games_list

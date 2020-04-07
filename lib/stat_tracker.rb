@@ -158,6 +158,16 @@ class StatTracker
     teams_repo.rival(team_id).name
   end
 
+  def biggest_team_blowout(team_id)
+    games_repo.biggest_blowout(team_id)
+  end
+
+  def worst_loss(team_id)
+    games_repo.worst_loss
+  end
+
+
+
 
   #Other Methods
 
@@ -215,6 +225,14 @@ class StatTracker
 
   def team_id_highest_win_percentage_against_the_given_team(team_id)
     games_repo.team_id_highest_win_percentage_against_the_given_team(team_id)
+  end
+
+  def games_won_by_given_team(team_id)
+    game_stats_repo.games_won_by_given_team(team_id)
+  end
+
+  def games_lost_by_given_team(team_id)
+    game_stats_repo.games_lost_by_given_team(team_id)
   end
 
 
