@@ -1,6 +1,17 @@
 require 'rspec'
 require './lib/games_repo'
 require './lib/game'
+# require './lib/stat_tracker'
+
+# game_path = './spec/fixtures/game.csv'
+# team_path = './spec/fixtures/team_info.csv'
+# game_teams_path = './spec/fixtures/game_teams_stats.csv'
+
+# locations = {
+#   games: game_path,
+#   teams: team_path,
+#   game_teams: game_teams_path
+# }
 
 def default_game_params
   {
@@ -478,9 +489,8 @@ RSpec.describe GamesRepo do
     end
   end
 
-  describe '#biggest_blowout' do
-    it 'returns biggest difference between team goals and opponent goals for a win for the given team' do
-      
+  describe '#biggest_team_blowout' do
+    it 'returns biggest difference between team goals and opponent goals for a win for the given team' do   
       games = [
         build_game({ game_id: 2012030221,away_team_id: "3",home_team_id:"15", outcome:"home win OT"}),
         build_game({ game_id: 2012030222,away_team_id: "6",home_team_id:"15",outcome:"away win REG"}),
@@ -489,9 +499,11 @@ RSpec.describe GamesRepo do
         build_game({ game_id: 2012030225,away_team_id: "3",home_team_id:"15",outcome:"away win OT"}),
         build_game({ game_id: 2012030226,away_team_id: "3",home_team_id:"15",outcome:"away win REG"})
       ]
-      games_repo = GamesRepo.new('stat_tracker_placeholder', games)
 
-      expect(games_repo.biggest_blowout("3")).to eql("6")
+      
+      games_repo = GamesRepo.new(stat_tracker, games)
+
+      expect(games_repo.biggest_team_blowout("3")).to eql("6")
     end
   end
 

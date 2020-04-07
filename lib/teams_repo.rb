@@ -84,6 +84,7 @@ class TeamsRepo
       abbreviation: selected_team.abbreviation,
       link: selected_team.link
     }
+  end
 
     def favorite_opponent(team_id)
       teams

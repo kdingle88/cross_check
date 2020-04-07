@@ -15,7 +15,7 @@ locations = {
 
 stat_tracker = StatTracker.from_csv(locations)
 
-#ADD NEW WAY OF CREATING CLASS INSTANCES WITH INFO BELOW
+
 
 def default_team_params
   {
@@ -108,20 +108,4 @@ RSpec.describe TeamsRepo do
     end
   end
 
-  # describe '#best_offense' do
-  #   it 'returns name of team with the highest goals' do
-  #     teams = [
-  #       build_teams({ game_id: 2012030222,team_id: 1, goals: 4}),
-  #       build_teams({ game_id: 2012030223,team_id: 2, goals: 5}),
-  #       build_teams({ game_id: 2012030224,team_id: 3, goals: 6}),
-  #       build_teams({ game_id: 2012030225,team_id: 4, goals: 2}),
-  #       build_teams({ game_id: 2012030226,team_id: 5, goals: 1}),
-  #       build_teams({ game_id: 2012030227,team_id: 5, goals: 6}),
-  #     ]
-
-  #     teams_repo = TeamsRepo.new(stat_tracker,)
-
-    #   expect()
-    # end
-  # end
 end
