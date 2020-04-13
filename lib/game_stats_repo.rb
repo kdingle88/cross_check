@@ -12,7 +12,9 @@ class GameStatsRepo
   def team_id_with_highest_average_of_goals_per_game
     game_stats
       .group_by(&:team_id)
-      .map {|team_id,stats| [team_id,((sum_of_goals(stats)).fdiv(stats.length)).round(2)]}
+      .map do |team_id,stats|
+        [team_id, ((sum_of_goals(stats)).fdiv(stats.length)).round(2)]
+        end
       .to_h
       .max_by { |team_id, goals| goals }[0]
   end
@@ -20,7 +22,9 @@ class GameStatsRepo
   def team_id_with_lowest_average_of_goals_per_game
     game_stats
     .group_by(&:team_id)
-    .map {|team_id,stats| [team_id,((sum_of_goals(stats)).fdiv(stats.length)).round(2)]}
+    .map do |team_id,stats|
+      [team_id,((sum_of_goals(stats)).fdiv(stats.length)).round(2)]
+      end
     .to_h
     .min_by {|team_id,goals| goals}[0]
   
@@ -29,7 +33,8 @@ class GameStatsRepo
   def team_id_with_highest_percent_wins
     game_stats
       .group_by(&:team_id)
-      .map{|team_id, stats| [team_id,((total_wins(stats)).fdiv(stats.length)).round(2)]}
+      .map{|team_id, stats| [team_id,((total_wins(stats)).fdiv(stats.length))
+        .round(2)]}
       .to_h
       .max_by {|team_id,wins| wins}[0]
   end
@@ -37,7 +42,8 @@ class GameStatsRepo
   def team_id_with_lowest_percent_wins
     game_stats
       .group_by(&:team_id)
-      .map{|team_id, stats| [team_id,((total_wins(stats)).fdiv(stats.length)).round(2)]}
+      .map{|team_id, stats| [team_id,((total_wins(stats)).fdiv(stats.length))
+        .round(2)]}
       .to_h
       .min_by {|team_id,wins| wins}[0]
   end
@@ -58,13 +64,13 @@ class GameStatsRepo
 
   def games_won_by_given_team(team_id)
     game_stats
-      .find_all {|stat| stat.team_id == team_id && stat.won == TRUE}
+      .find_all {|stat| stat.team_id == team_id && stat.won == true}
       .map(&:game_id)
   end
 
   def games_lost_by_given_team(team_id)
     game_stats
-      .find_all {|stat| stat.team_id == team_id && stat.won == FALSE}
+      .find_all {|stat| stat.team_id == team_id && stat.won == false}
       .map(&:game_id)
   end
 
@@ -120,7 +126,7 @@ class GameStatsRepo
   
   def total_wins(stats)
     stats
-      .select {|stat| stat.won == TRUE}
+      .select {|stat| stat.won == true}
       .length
   end
 end

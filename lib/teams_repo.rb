@@ -17,45 +17,56 @@ class TeamsRepo
 
   def best_offense
     found_team = teams
-      .find {|team| team.team_id == stat_tracker.team_id_with_highest_number_of_goals_per_game }
-      
-    found_team
+      .find do |team| 
+        team.team_id == stat_tracker.team_id_with_highest_number_of_goals_per_game 
+      end
 
   end
 
   def worst_offense
     teams
-      .find {|team| team.team_id == stat_tracker.team_id_with_lowest_number_of_goals_per_game }
+      .find do |team| 
+        team.team_id == stat_tracker.team_id_with_lowest_number_of_goals_per_game 
+      end
   end
-
   def best_defense
     teams 
-      .find {|team| team.team_id == stat_tracker.team_id_with_lowest_number_of_goals_allowed_per_game}
-  end
+      .find do  |team| 
+        team.team_id == stat_tracker.team_id_with_lowest_number_of_goals_allowed_per_game
+      end
+   end
 
   def worst_defense
     teams 
-      .find {|team| team.team_id == stat_tracker.team_id_with_highest_number_of_goals_allowed_per_game}
+      .find do |team| 
+        team.team_id == stat_tracker.team_id_with_highest_number_of_goals_allowed_per_game
+    end
   end
 
   def highest_scoring_visitor
     teams
-      .find { |team| team.team_id == stat_tracker.team_id_with_highest_score_per_game_when_away}
+      .find do |team| 
+        team.team_id == stat_tracker.team_id_with_highest_score_per_game_when_away 
+    end
   end
-
   def highest_scoring_home_team
     teams
-      .find { |team| team.team_id == stat_tracker.team_id_with_highest_score_per_game_when_home}
+      .find do |team| 
+        team.team_id == stat_tracker.team_id_with_highest_score_per_game_when_home 
+    end
   end
 
   def lowest_scoring_visitor
     teams
-      .find { |team| team.team_id == stat_tracker.team_id_with_lowest_score_per_game_when_away}
+      .find do |team| team.team_id == stat_tracker.team_id_with_lowest_score_per_game_when_away
+    end
   end
 
   def lowest_scoring_home_team
     teams
-      .find { |team| team.team_id == stat_tracker.team_id_with_lowest_score_per_game_when_home}
+      .find do |team| 
+        team.team_id == stat_tracker.team_id_with_lowest_score_per_game_when_home
+    end
   end
 
   def winningest_team
