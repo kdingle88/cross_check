@@ -16,50 +16,65 @@ class TeamsRepo
   end
 
   def best_offense
-    found_team = teams
+    selected_team = teams
       .find do |team| 
         team.team_id == stat_tracker.team_id_with_highest_number_of_goals_per_game 
       end
+    {
+      name:selected_team.team_name  
+    }
 
   end
 
   def worst_offense
-    teams
+    selected_team = teams
       .find do |team| 
         team.team_id == stat_tracker.team_id_with_lowest_number_of_goals_per_game 
       end
+    {
+      name:selected_team.team_name 
+    }
   end
   def best_defense
-    teams 
+    selected_team =teams 
       .find do  |team| 
         team.team_id == stat_tracker.team_id_with_lowest_number_of_goals_allowed_per_game
       end
+    {
+      name:selected_team.team_name 
+    }
    end
 
   def worst_defense
-    teams 
+    selected_team =teams 
       .find do |team| 
         team.team_id == stat_tracker.team_id_with_highest_number_of_goals_allowed_per_game
     end
+    {
+      name:selected_team.team_name 
+    }
   end
 
   def highest_scoring_visitor
-    teams
+    selected_team =teams
       .find do |team| 
         team.team_id == stat_tracker.team_id_with_highest_score_per_game_when_away 
     end
+    {name: selected_team.team_name}
   end
   def highest_scoring_home_team
-    teams
+    selected_team = teams
       .find do |team| 
         team.team_id == stat_tracker.team_id_with_highest_score_per_game_when_home 
     end
+    {name: selected_team.team_name}
   end
 
   def lowest_scoring_visitor
-    teams
+    selected_team = teams
       .find do |team| team.team_id == stat_tracker.team_id_with_lowest_score_per_game_when_away
     end
+    {name: selected_team.team_name} 
   end
 
   def lowest_scoring_home_team

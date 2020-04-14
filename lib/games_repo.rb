@@ -1,3 +1,4 @@
+require 'pry'
 class GamesRepo 
 
   attr_reader :stat_tracker, :games

@@ -1,111 +1,189 @@
 require 'rspec'
 require './lib/team'
 require './lib/teams_repo'
-require './lib/stat_tracker'
-
-game_path = './spec/fixtures/game.csv'
-team_path = './spec/fixtures/team_info.csv'
-game_teams_path = './spec/fixtures/game_teams_stats.csv'
-
-locations = {
-  games: game_path,
-  teams: team_path,
-  game_teams: game_teams_path
-}
-
-stat_tracker = StatTracker.from_csv(locations)
-
-
 
 def default_team_params
   {
     team_id: 6,
-    franchise_id: 6,
-    short_name: "Boston",
-    team_name: "Bruins",
+    franchiseid: 6,
+    shortname: "Boston",
+    teamname: "Bruins",
     abbreviation: "BOS" ,
     link: "/api/v1/teams/6"
   }
 end
 
-def build_teams(override_params = {})
+def build_team(override_params = {})
   Team.new(default_team_params.merge(override_params))
 end
 
-team_uno = Team.new({
-  team_id:  "1",
-  franchiseid: "23",
-  shortname: "New Jersey",
-  teamname: "Devils",
-  abbreviation: "NJD",
-  link: "/api/v1/teams/1"
-})
-
-team_dos = Team.new({
-  team_id:  "6",
-  franchiseid: "6",
-  shortname: "Boston",
-  teamname: "Bruins",
-  abbreviation: "BOS",
-  link: "/api/v1/teams/6"
-})
-
-team_tres = Team.new({
-  team_id:  "3",
-  franchiseid: "10",
-  shortname: "NY Rangers",
-  teamname: "Rangers",
-  abbreviation: "NYR",
-  link: "/api/v1/teams/3"
-})
-
-team_quatro = Team.new({
-  team_id:  "10",
-  franchiseid: "5",
-  shortname: "Toronto",
-  teamname: "Maple Leafs",
-  abbreviation: "TOR",
-  link: "/api/v1/teams/10"
-})
-
-team_cinco = Team.new({
-  team_id:  "15",
-  franchiseid: "24",
-  shortname: "Washington",
-  teamname: "Capitals",
-  abbreviation: "WSH",
-  link: "/api/v1/teams/15"
-})
-
 RSpec.describe TeamsRepo do
   describe '::count_of_teams' do
-    context 'when given teams' do
-      three_teams = [
-        build_teams({ team_id: 1}),
-        build_teams({ team_id: 3}),
-        build_teams({ team_id: 5}),
-      ]
-      
-      five_teams = [
-        build_teams({ team_id: 1}),
-        build_teams({ team_id: 2}),
-        build_teams({ team_id: 3}),
-        build_teams({ team_id: 4}),
-        build_teams({ team_id: 5}),
+    teams = [
+        build_team({ team_id: 1}),
+        build_team({ team_id: 2}),
+        build_team({ team_id: 3}),
       ]
 
-      it 'returns total number of teams' do
-        three_teams_count = TeamsRepo.count_of_teams(three_teams)
+    it 'returns total number of teams' do
+      teams_count = TeamsRepo.count_of_teams(teams)
 
-        expect(three_teams_count).to eql(3)
-      end
-
-      it 'returns total number of teams test 2' do
-        five_teams_count = TeamsRepo.count_of_teams(five_teams)
-
-        expect(five_teams_count).to eql(5)
-      end
+      expect(teams_count).to eql(3)
     end
   end
 
+    describe '#best_offense' do
+    
+      team_one = 1
+      team_two = 2
+      team_one_name = "Blackhawks"
+      team_two_name = "Rangers"
+      
+    teams = [
+        build_team({ team_id:team_one,teamname: team_one_name}),
+        build_team({ team_id:team_two , teamname: team_two_name}),
+    ]
+
+    it 'returns team name with the best offense' do
+      stat_tracker = double()
+      
+      result  = {name: team_one_name}
+
+      stat_tracker
+        .stub(:team_id_with_highest_number_of_goals_per_game){team_one}
+
+      teams_repo = TeamsRepo.new(stat_tracker,teams)
+
+      expect(teams_repo.best_offense).to eql(result)
+    end
+  end
+
+  describe '#worst_offense' do
+    
+    team_one = 1
+    team_two = 2
+    team_one_name = "Blackhawks"
+    team_two_name = "Rangers"
+      
+    teams = [
+        build_team({ team_id:team_one,teamname: team_one_name}),
+        build_team({ team_id:team_two , teamname: team_two_name}),
+    ]
+
+    it 'returns team name with the worst offense' do
+      stat_tracker = double()
+
+      result  = {name: team_two_name}
+
+      stat_tracker
+        .stub(:team_id_with_lowest_number_of_goals_per_game) {team_two}
+
+      teams_repo = TeamsRepo.new(stat_tracker,teams)
+
+      expect(teams_repo.worst_offense).to eql(result)
+    end
+  end
+
+  describe '#best_defense' do
+    
+    team_one = 1
+    team_two = 2
+    team_one_name = "Blackhawks"
+    team_two_name = "Rangers"
+      
+    teams = [
+        build_team({ team_id:team_one,teamname: team_one_name}),
+        build_team({ team_id:team_two , teamname: team_two_name}),
+    ]
+
+    it 'returns team name with the best defense' do
+      stat_tracker = double()
+
+      result  = {name: team_two_name}
+
+      stat_tracker
+        .stub(:team_id_with_lowest_number_of_goals_allowed_per_game) {team_two}
+
+      teams_repo = TeamsRepo.new(stat_tracker,teams)
+
+      expect(teams_repo.best_defense).to eql(result)
+    end
+  end
+  describe '#worst_defense' do
+    
+    team_one = 1
+    team_two = 2
+    team_one_name = "Blackhawks"
+    team_two_name = "Rangers"
+      
+    teams = [
+        build_team({ team_id:team_one,teamname: team_one_name}),
+        build_team({ team_id:team_two , teamname: team_two_name}),
+    ]
+
+    it 'returns team name with the worst defense' do
+      stat_tracker = double()
+
+      result  = {name: team_one_name}
+
+      stat_tracker
+        .stub(:team_id_with_highest_number_of_goals_allowed_per_game) {team_one}
+
+      teams_repo = TeamsRepo.new(stat_tracker,teams)
+
+      expect(teams_repo.worst_defense).to eql(result)
+    end
+  end
+  describe '#highest_scoring_visitor' do
+    
+    team_one = 1
+    team_two = 2
+    team_one_name = "Blackhawks"
+    team_two_name = "Rangers"
+      
+    teams = [
+        build_team({ team_id:team_one,teamname: team_one_name}),
+        build_team({ team_id:team_two , teamname: team_two_name}),
+    ]
+
+    it 'returns team name of the highest scoring away team' do
+      stat_tracker = double()
+
+      result  = {name: team_one_name}
+
+      stat_tracker
+        .stub(:team_id_with_highest_score_per_game_when_away) {team_one}
+
+      teams_repo = TeamsRepo.new(stat_tracker,teams)
+
+      expect(teams_repo.highest_scoring_visitor).to eql(result)
+    end
+  end
+  describe '#highest_scoring_home_team' do
+    
+    team_one = 1
+    team_two = 2
+    team_one_name = "Blackhawks"
+    team_two_name = "Rangers"
+      
+    teams = [
+        build_team({ team_id:team_one,teamname: team_one_name}),
+        build_team({ team_id:team_two , teamname: team_two_name}),
+    ]
+
+      it 'returns team name of the highest scoring home team' do
+        stat_tracker = double()
+
+        result  = {name: team_two_name}
+
+        stat_tracker
+          .stub(:team_id_with_highest_score_per_game_when_home) {team_two}
+
+        teams_repo = TeamsRepo.new(stat_tracker,teams)
+
+        expect(teams_repo.highest_scoring_home_team).to eql(result)
+      end
+  end
 end
+
+
